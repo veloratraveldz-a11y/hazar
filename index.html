@@ -1,155 +1,122 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAZAR TRAVELS | Expert en Billetterie & Voyages</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
-        .filter-btn { transition: all 0.3s ease; border: 1px solid #334155; color: #94A3B8; }
-        .filter-btn.active { background-color: #3B82F6; color: white; border-color: #3B82F6; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4); }
-        .nav-corporate { background: #0F172A; border-bottom: 4px solid #3B82F6; }
-        .card-flight { background: white; border-radius: 20px; transition: all 0.3s ease; border: 1px solid #E2E8F0; }
-        .card-flight:hover { transform: translateY(-5px); border-color: #3B82F6; }
-        .tag-organise { background: linear-gradient(45deg, #F59E0B, #D97706); }
-    </style>
-</head>
-<body>
+<script>
+    const myPhone = "213558332601";
+    // Votre lien CSV reste le même
+    const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRbe5nhU_ImNBu1ACWDVodOHJ6C7orVqdL84t5HkybnwOglhLzNC3fZ-rR9UeAX8G8AFTjCT85TNKgU/pub?gid=1910675952&single=true&output=csv";
+    
+    const logos = {
+        "tk": "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/Turkish_Airlines_logo_2019.svg/1280px-Turkish_Airlines_logo_2019.svg.png",
+        "ah": "https://upload.wikimedia.org/wikipedia/fr/thumb/3/36/Air_Alg%C3%A9rie_logo.svg/1200px-Air_Alg%C3%A9rie_logo.svg.png",
+        "tu": "https://upload.wikimedia.org/wikipedia/fr/thumb/c/c5/Tunisair_logo.svg/1200px-Tunisair_logo.svg.png"
+    };
 
-    <nav class="nav-corporate px-6 py-4 sticky top-0 z-50">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-[#0F172A] font-black text-xl shadow-lg">H</div>
-                <div>
-                    <h1 class="text-white font-extrabold text-lg uppercase tracking-tighter leading-none">Hazar Travels</h1>
-                    <p class="text-sky-400 text-[8px] font-bold uppercase tracking-[0.2em] mt-1">Expert Voyages</p>
+    const cityImgs = {
+        "istanbul": "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=800",
+        "tunis": "https://images.unsplash.com/photo-1596128330964-629d39739149?q=80&w=800",
+        "default": "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=800"
+    };
+
+    let allFlights = [];
+
+    async function init() {
+        try {
+            const res = await fetch(csvUrl);
+            const text = await res.text();
+            const rows = text.split('\n').slice(1);
+
+            allFlights = rows.map(row => {
+                const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                if (cols.length < 5) return null;
+                
+                const destination = cols[1].replace(/"/g, '').trim();
+                const airlineKey = cols[5] ? cols[5].replace(/"/g, '').trim().toLowerCase() : "tk";
+                // On récupère le lien de l'image dans la colonne I (index 8)
+                const customImg = cols[8] ? cols[8].replace(/"/g, '').trim() : "";
+                
+                // Choix de l'image : Image perso > Image Ville > Image par défaut
+                let displayImg = cityImgs.default;
+                if (customImg && customImg.startsWith('http')) {
+                    displayImg = customImg;
+                } else if (destination.toLowerCase().includes("istanbul")) {
+                    displayImg = cityImgs.istanbul;
+                } else if (destination.toLowerCase().includes("tunis")) {
+                    displayImg = cityImgs.tunis;
+                }
+
+                return {
+                    date: cols[0].replace(/"/g, '').trim(),
+                    dest: destination,
+                    price: cols[2].replace(/"/g, '').trim().replace(" DA", ""),
+                    days: cols[3].replace(/"/g, '').trim(),
+                    bag: cols[4].replace(/"/g, '').trim(),
+                    airlineLogo: logos[airlineKey] || logos["tk"],
+                    places: cols[7] ? cols[7].replace(/"/g, '').trim() : "10+",
+                    isOrganise: destination.toLowerCase().includes("organisé") || destination.toLowerCase().includes("pack"),
+                    img: displayImg
+                };
+            }).filter(f => f !== null);
+
+            renderFlights(allFlights);
+        } catch (e) { console.error("Erreur CSV:", e); }
+    }
+
+    function renderFlights(list) {
+        const container = document.getElementById('flight-container');
+        const empty = document.getElementById('empty-msg');
+        container.innerHTML = "";
+        if (list.length === 0) { empty.classList.remove('hidden'); return; }
+        empty.classList.add('hidden');
+
+        list.forEach(o => {
+            const badge = o.isOrganise 
+                ? `<span class="tag-organise text-white text-[9px] font-black px-3 py-1 rounded-full uppercase shadow-md border border-white/20">Hôtel Inclus</span>`
+                : `<img src="${o.airlineLogo}" class="logo-img" alt="Logo">`;
+
+            container.innerHTML += `
+            <div class="card-flight shadow-xl">
+                <div class="relative h-56 overflow-hidden">
+                    <img src="${o.img}" class="w-full h-full object-cover transform hover:scale-110 transition duration-700">
+                    <div class="absolute top-4 left-4 bg-white/95 p-2 rounded-lg shadow-sm flex items-center justify-center min-w-[60px]">${badge}</div>
+                    ${o.isOrganise ? '<div class="absolute top-4 right-4 bg-amber-500 text-white p-2 rounded-lg shadow-md"><i class="fas fa-star text-[10px]"></i></div>' : ''}
+                    <div class="absolute bottom-4 right-4 bg-red-600 text-white px-3 py-1 rounded-md text-[9px] font-black uppercase animate-pulse italic">
+                       <i class="fas fa-fire mr-1"></i> ${o.places} PLACES
+                    </div>
                 </div>
-            </div>
-            <a href="https://wa.me/213558332601" class="bg-green-500 text-white px-4 py-2 rounded-full font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-green-600 transition-all">
-                <i class="fab fa-whatsapp text-sm"></i> Contact
-            </a>
-        </div>
-    </nav>
-
-    <header class="bg-[#0F172A] py-12 px-6 text-center border-b border-slate-800">
-        <h2 class="text-3xl md:text-5xl font-black text-white mb-6 italic uppercase tracking-tighter">Choisissez votre offre</h2>
-        
-        <div class="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
-            <button onclick="filterType('all')" id="btn-all" class="filter-btn active px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Tous les vols</button>
-            <button onclick="filterType('4')" id="btn-4" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Flash (4J)</button>
-            <button onclick="filterType('7')" id="btn-7" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Standard (7J)</button>
-            <button onclick="filterType('8')" id="btn-8" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Grand Tour (8J)</button>
-            <button onclick="filterType('organise')" id="btn-organise" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest border-amber-500/50 hover:border-amber-500">
-                <i class="fas fa-star text-amber-500 mr-1"></i> Voyage Organisé
-            </button>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div id="flight-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            </div>
-        <div id="empty-msg" class="hidden text-center py-20">
-            <i class="fas fa-plane-slash text-4xl text-slate-200 mb-4"></i>
-            <p class="text-slate-400 font-medium italic">Aucune offre disponible dans cette catégorie pour le moment.</p>
-        </div>
-    </main>
-
-    <footer class="bg-white border-t border-slate-200 py-10 text-center">
-        <p class="text-slate-400 text-[9px] font-bold uppercase tracking-[0.4em]">Hazar Travels © 2026 - El Harrach, Alger</p>
-    </footer>
-
-    <script>
-        const myPhone = "213558332601";
-        const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjCWcdwrU8R0ZoyIZi-nMgp4pY7ci12yVpIw9b_unbbL_TRdBOAUDKeZfLmCIHdPtAtab0yoDxfhbN/pub?output=csv";
-        let allFlights = [];
-
-        async function init() {
-            try {
-                const res = await fetch(csvUrl);
-                const text = await res.text();
-                const rows = text.split('\n').slice(1);
-
-                allFlights = rows.map(row => {
-                    const cols = row.split(/,(?=(?:(?:[^\"*]*\"){2})*[^\"*]*$)/);
-                    if (cols.length < 5) return null;
-                    return {
-                        date: cols[0].replace(/"/g, '').trim(),
-                        dest: cols[1].replace(/"/g, '').trim(),
-                        price: cols[2].replace(/"/g, '').trim(),
-                        days: cols[3].replace(/"/g, '').trim(),
-                        bag: cols[4].replace(/"/g, '').trim(),
-                        comp: cols[5] ? cols[5].replace(/"/g, '').trim() : "Turkish Airlines",
-                        plan: cols[6] ? cols[6].replace(/"/g, '').trim() : "",
-                        isOrganise: cols[1].toLowerCase().includes("organisé") || cols[8]?.toLowerCase().includes("organisé")
-                    };
-                }).filter(f => f !== null);
-
-                renderFlights(allFlights);
-            } catch (e) { console.error(e); }
-        }
-
-        function renderFlights(list) {
-            const container = document.getElementById('flight-container');
-            const empty = document.getElementById('empty-msg');
-            container.innerHTML = "";
-            
-            if (list.length === 0) {
-                empty.classList.remove('hidden');
-                return;
-            }
-            empty.classList.add('hidden');
-
-            list.forEach(o => {
-                const badge = o.isOrganise 
-                    ? `<span class="tag-organise text-white text-[9px] font-black px-3 py-1 rounded-full uppercase shadow-sm"><i class="fas fa-hotel"></i> Voyage Organisé</span>`
-                    : `<span class="bg-blue-50 text-blue-600 text-[9px] font-black px-3 py-1 rounded-full uppercase border border-blue-100">${o.comp}</span>`;
-
-                container.innerHTML += `
-                <div class="card-flight p-6 flex flex-col justify-between shadow-sm">
-                    <div>
-                        <div class="flex justify-between items-center mb-4">
-                            ${badge}
-                            <span class="text-slate-300 font-black text-[10px] uppercase tracking-tighter italic">Hazar B2C</span>
+                <div class="p-6 flex flex-col flex-grow">
+                    <h4 class="text-2xl font-black text-slate-800 mb-1 tracking-tighter uppercase italic leading-tight">${o.dest}</h4>
+                    <div class="flex items-center gap-2 mb-6">
+                        <span class="text-slate-400 font-bold text-[10px] uppercase tracking-widest">${o.date}</span>
+                        <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                        <span class="text-sky-600 font-black text-[10px] uppercase italic">${o.days}</span>
+                    </div>
+                    
+                    <div class="flex items-center justify-between mb-8 bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                        <div>
+                            <p class="text-[9px] font-bold text-slate-400 uppercase leading-none mb-1">Total Séjour</p>
+                            <span class="text-3xl font-black text-slate-900">${o.price} <small class="text-xs">DA</small></span>
                         </div>
-                        <h4 class="text-2xl font-black text-slate-800 mb-1 tracking-tighter uppercase italic leading-none">${o.dest}</h4>
-                        <p class="text-slate-400 text-[10px] font-bold mb-6 uppercase tracking-widest">${o.date}</p>
-                        
-                        <div class="flex items-end gap-2 mb-8">
-                            <div class="bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl shadow-slate-200">
-                                <span class="text-3xl font-black">${o.price}</span> <span class="text-[10px] font-bold opacity-60">DA</span>
-                            </div>
-                            <div class="bg-white border-2 border-slate-100 px-4 py-3 rounded-2xl font-black text-slate-800 text-sm italic">
-                                ${o.days}
-                            </div>
+                        <div class="text-right">
+                            <p class="text-[9px] font-bold text-slate-400 uppercase mb-1">Bagage</p>
+                            <span class="text-xs font-black text-slate-700">${o.bag}</span>
                         </div>
                     </div>
                     
-                    <a href="https://wa.me/${myPhone}?text=${encodeURIComponent('Bonjour Hazar Travels, je suis intéressé par : ' + o.dest + ' (' + o.days + ') du ' + o.date)}" 
+                    <a href="https://wa.me/${myPhone}?text=${encodeURIComponent('Hazar Travels, intéressé par : ' + o.dest + ' (' + o.days + ') - ' + o.date)}" 
                        target="_blank" 
-                       class="w-full bg-[#0F172A] text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-sky-600 transition-all shadow-lg shadow-slate-100 transform active:scale-95">
-                        Réserver maintenant <i class="fab fa-whatsapp text-xl text-green-400"></i>
+                       class="mt-auto w-full bg-[#0F172A] text-white py-4 rounded-xl font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-sky-600 transition-all shadow-lg active:scale-95">
+                        RESERVER <i class="fab fa-whatsapp text-lg text-green-400"></i>
                     </a>
-                </div>`;
-            });
-        }
+                </div>
+            </div>`;
+        });
+    }
 
-        function filterType(type) {
-            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById('btn-' + type).classList.add('active');
+    function filterType(type) {
+        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+        document.getElementById('btn-' + type).classList.add('active');
+        if (type === 'all') renderFlights(allFlights);
+        else if (type === 'organise') renderFlights(allFlights.filter(f => f.isOrganise));
+        else renderFlights(allFlights.filter(f => f.days.includes(type) && !f.isOrganise));
+    }
 
-            if (type === 'all') {
-                renderFlights(allFlights);
-            } else if (type === 'organise') {
-                renderFlights(allFlights.filter(f => f.isOrganise));
-            } else {
-                renderFlights(allFlights.filter(f => f.days.includes(type) && !f.isOrganise));
-            }
-        }
-
-        init();
-    </script>
-</body>
-</html>
+    init();
+</script>

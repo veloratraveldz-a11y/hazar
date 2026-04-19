@@ -3,181 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HAZAR TRAVELS | Réservation de Vols Officielle</title>
+    <title>HAZAR TRAVELS | Expert en Billetterie & Voyages</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F1F5F9; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #F8FAFC; }
+        .filter-btn { transition: all 0.3s ease; border: 1px solid #334155; color: #94A3B8; }
+        .filter-btn.active { background-color: #3B82F6; color: white; border-color: #3B82F6; box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.4); }
         .nav-corporate { background: #0F172A; border-bottom: 4px solid #3B82F6; }
-        .card-flight { background: white; border-radius: 24px; overflow: hidden; transition: all 0.3s ease; border: 1px solid #E2E8F0; height: 100%; display: flex; flex-direction: column; }
-        .card-flight:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.1); border-color: #3B82F6; }
-        .hero-bg { background: linear-gradient(rgba(15, 23, 42, 0.85), rgba(15, 23, 42, 0.85)), url('https://images.unsplash.com/photo-1436491865332-7a61a109cc05?q=80&w=1600'); background-size: cover; background-position: center; }
-        #modal { display: none; position: fixed; inset: 0; background: rgba(15, 23, 42, 0.9); z-index: 1000; align-items: center; justify-content: center; backdrop-filter: blur(10px); }
-        .plan-entry { border-left: 4px solid #3B82F6; background: #F8FAFC; padding: 1rem; border-radius: 0 12px 12px 0; }
+        .card-flight { background: white; border-radius: 20px; transition: all 0.3s ease; border: 1px solid #E2E8F0; }
+        .card-flight:hover { transform: translateY(-5px); border-color: #3B82F6; }
+        .tag-organise { background: linear-gradient(45deg, #F59E0B, #D97706); }
     </style>
 </head>
 <body>
 
-    <nav class="nav-corporate px-6 py-4 sticky top-0 z-50 shadow-2xl">
+    <nav class="nav-corporate px-6 py-4 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center text-[#0F172A] font-black text-2xl shadow-inner">H</div>
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 bg-white rounded-lg flex items-center justify-center text-[#0F172A] font-black text-xl shadow-lg">H</div>
                 <div>
-                    <h1 class="text-white font-extrabold text-xl tracking-tight leading-none uppercase">Hazar Travels</h1>
-                    <p class="text-sky-400 text-[9px] font-bold tracking-[0.3em] uppercase mt-1">Votre Partenaire de Voyage</p>
+                    <h1 class="text-white font-extrabold text-lg uppercase tracking-tighter leading-none">Hazar Travels</h1>
+                    <p class="text-sky-400 text-[8px] font-bold uppercase tracking-[0.2em] mt-1">Expert Voyages</p>
                 </div>
             </div>
-            <div class="flex items-center gap-3">
-                <span class="bg-red-600 text-white text-[10px] font-bold px-3 py-1 rounded-full animate-pulse uppercase tracking-tighter italic shadow-lg shadow-red-900/20">Vente Flash</span>
-            </div>
+            <a href="https://wa.me/213558332601" class="bg-green-500 text-white px-4 py-2 rounded-full font-black text-[10px] uppercase tracking-widest flex items-center gap-2 hover:bg-green-600 transition-all">
+                <i class="fab fa-whatsapp text-sm"></i> Contact
+            </a>
         </div>
     </nav>
 
-    <header class="hero-bg py-24 px-6 text-center text-white">
-        <h2 class="text-4xl md:text-6xl font-black mb-4 tracking-tighter uppercase italic">Promotions Billets d'avion</h2>
-        <div class="w-20 h-1.5 bg-sky-500 mx-auto mb-6 rounded-full"></div>
-        <p class="text-slate-300 text-lg max-w-2xl mx-auto font-light leading-relaxed">
-            Profitez d'un accès exclusif <span class="text-white font-bold text-xl px-2">B2C</span> aux meilleurs tarifs Turkish Airlines, Air Algérie et Tunisair.
-        </p>
+    <header class="bg-[#0F172A] py-12 px-6 text-center border-b border-slate-800">
+        <h2 class="text-3xl md:text-5xl font-black text-white mb-6 italic uppercase tracking-tighter">Choisissez votre offre</h2>
+        
+        <div class="flex flex-wrap justify-center gap-3 max-w-5xl mx-auto">
+            <button onclick="filterType('all')" id="btn-all" class="filter-btn active px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Tous les vols</button>
+            <button onclick="filterType('4')" id="btn-4" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Flash (4J)</button>
+            <button onclick="filterType('7')" id="btn-7" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Standard (7J)</button>
+            <button onclick="filterType('8')" id="btn-8" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest">Grand Tour (8J)</button>
+            <button onclick="filterType('organise')" id="btn-organise" class="filter-btn px-5 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest border-amber-500/50 hover:border-amber-500">
+                <i class="fas fa-star text-amber-500 mr-1"></i> Voyage Organisé
+            </button>
+        </div>
     </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-16">
-        <section class="mb-24">
-            <div class="flex items-center justify-between mb-10 border-b-2 border-slate-200 pb-4">
-                <div class="flex items-center gap-4">
-                    <i class="fas fa-plane-departure text-3xl text-sky-600"></i>
-                    <h3 class="text-3xl font-black text-slate-800 uppercase tracking-tight">Vols au départ d'<span class="text-sky-600">Alger</span></h3>
-                </div>
+    <main class="max-w-7xl mx-auto px-6 py-12">
+        <div id="flight-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             </div>
-            <div id="gridAlger" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <p class="text-slate-400 italic">Chargement des vols Alger...</p>
-            </div>
-        </section>
-
-        <section class="mb-24">
-            <div class="flex items-center justify-between mb-10 border-b-2 border-slate-200 pb-4">
-                <div class="flex items-center gap-4">
-                    <i class="fas fa-plane-departure text-3xl text-blue-800"></i>
-                    <h3 class="text-3xl font-black text-slate-800 uppercase tracking-tight">Vols au départ de <span class="text-blue-800">Constantine</span></h3>
-                </div>
-            </div>
-            <div id="gridConst" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-                <p class="text-slate-400 italic">Chargement des vols Constantine...</p>
-            </div>
-        </section>
+        <div id="empty-msg" class="hidden text-center py-20">
+            <i class="fas fa-plane-slash text-4xl text-slate-200 mb-4"></i>
+            <p class="text-slate-400 font-medium italic">Aucune offre disponible dans cette catégorie pour le moment.</p>
+        </div>
     </main>
 
-    <div id="modal">
-        <div class="bg-white rounded-[2rem] p-8 max-w-lg w-[94%] shadow-2xl relative border-t-[12px] border-sky-600 overflow-y-auto max-h-[90vh]">
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-300 hover:text-red-500 transition text-3xl">
-                <i class="fas fa-times-circle"></i>
-            </button>
-            <div id="modalContent"></div>
-        </div>
-    </div>
-
-    <footer class="bg-[#0F172A] py-16 text-center border-t border-slate-800">
-        <p class="text-slate-500 text-[11px] font-black uppercase tracking-[0.5em]">Hazar Travels - Portail de Réservation Officiel © 2026</p>
+    <footer class="bg-white border-t border-slate-200 py-10 text-center">
+        <p class="text-slate-400 text-[9px] font-bold uppercase tracking-[0.4em]">Hazar Travels © 2026 - El Harrach, Alger</p>
     </footer>
 
     <script>
         const myPhone = "213558332601";
-        const imgIstanbul = "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?q=80&w=800";
         const csvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQjCWcdwrU8R0ZoyIZi-nMgp4pY7ci12yVpIw9b_unbbL_TRdBOAUDKeZfLmCIHdPtAtab0yoDxfhbN/pub?output=csv";
+        let allFlights = [];
 
-        async function render() {
+        async function init() {
             try {
-                const response = await fetch(csvUrl);
-                const data = await response.text();
-                const rows = data.split('\n').slice(1);
-                
-                const ga = document.getElementById('gridAlger');
-                const gc = document.getElementById('gridConst');
-                ga.innerHTML = ""; gc.innerHTML = "";
+                const res = await fetch(csvUrl);
+                const text = await res.text();
+                const rows = text.split('\n').slice(1);
 
-                rows.forEach(row => {
-                    const cols = row.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    if (cols.length < 5) return;
-
-                    const flight = {
-                        displayDate: cols[0].replace(/"/g, '').trim(),
-                        destination: cols[1].replace(/"/g, '').trim(),
+                allFlights = rows.map(row => {
+                    const cols = row.split(/,(?=(?:(?:[^\"*]*\"){2})*[^\"*]*$)/);
+                    if (cols.length < 5) return null;
+                    return {
+                        date: cols[0].replace(/"/g, '').trim(),
+                        dest: cols[1].replace(/"/g, '').trim(),
                         price: cols[2].replace(/"/g, '').trim(),
-                        duration: cols[3].replace(/"/g, '').trim(),
+                        days: cols[3].replace(/"/g, '').trim(),
                         bag: cols[4].replace(/"/g, '').trim(),
-                        company: cols[5] ? cols[5].replace(/"/g, '').trim() : "Turkish Airlines",
-                        plan: cols[6] ? cols[6].replace(/"/g, '').trim() : ""
+                        comp: cols[5] ? cols[5].replace(/"/g, '').trim() : "Turkish Airlines",
+                        plan: cols[6] ? cols[6].replace(/"/g, '').trim() : "",
+                        isOrganise: cols[1].toLowerCase().includes("organisé") || cols[8]?.toLowerCase().includes("organisé")
                     };
+                }).filter(f => f !== null);
 
-                    const cardHtml = createCard(flight);
+                renderFlights(allFlights);
+            } catch (e) { console.error(e); }
+        }
 
-                    if (flight.destination.toLowerCase().includes("const")) {
-                        gc.innerHTML += cardHtml;
-                    } else {
-                        ga.innerHTML += cardHtml;
-                    }
-                });
+        function renderFlights(list) {
+            const container = document.getElementById('flight-container');
+            const empty = document.getElementById('empty-msg');
+            container.innerHTML = "";
+            
+            if (list.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
+            empty.classList.add('hidden');
 
-            } catch (error) {
-                console.error("Erreur:", error);
+            list.forEach(o => {
+                const badge = o.isOrganise 
+                    ? `<span class="tag-organise text-white text-[9px] font-black px-3 py-1 rounded-full uppercase shadow-sm"><i class="fas fa-hotel"></i> Voyage Organisé</span>`
+                    : `<span class="bg-blue-50 text-blue-600 text-[9px] font-black px-3 py-1 rounded-full uppercase border border-blue-100">${o.comp}</span>`;
+
+                container.innerHTML += `
+                <div class="card-flight p-6 flex flex-col justify-between shadow-sm">
+                    <div>
+                        <div class="flex justify-between items-center mb-4">
+                            ${badge}
+                            <span class="text-slate-300 font-black text-[10px] uppercase tracking-tighter italic">Hazar B2C</span>
+                        </div>
+                        <h4 class="text-2xl font-black text-slate-800 mb-1 tracking-tighter uppercase italic leading-none">${o.dest}</h4>
+                        <p class="text-slate-400 text-[10px] font-bold mb-6 uppercase tracking-widest">${o.date}</p>
+                        
+                        <div class="flex items-end gap-2 mb-8">
+                            <div class="bg-slate-900 text-white px-5 py-3 rounded-2xl shadow-xl shadow-slate-200">
+                                <span class="text-3xl font-black">${o.price}</span> <span class="text-[10px] font-bold opacity-60">DA</span>
+                            </div>
+                            <div class="bg-white border-2 border-slate-100 px-4 py-3 rounded-2xl font-black text-slate-800 text-sm italic">
+                                ${o.days}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <a href="https://wa.me/${myPhone}?text=${encodeURIComponent('Bonjour Hazar Travels, je suis intéressé par : ' + o.dest + ' (' + o.days + ') du ' + o.date)}" 
+                       target="_blank" 
+                       class="w-full bg-[#0F172A] text-white py-5 rounded-2xl font-black text-[11px] uppercase tracking-[0.2em] flex items-center justify-center gap-3 hover:bg-sky-600 transition-all shadow-lg shadow-slate-100 transform active:scale-95">
+                        Réserver maintenant <i class="fab fa-whatsapp text-xl text-green-400"></i>
+                    </a>
+                </div>`;
+            });
+        }
+
+        function filterType(type) {
+            document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById('btn-' + type).classList.add('active');
+
+            if (type === 'all') {
+                renderFlights(allFlights);
+            } else if (type === 'organise') {
+                renderFlights(allFlights.filter(f => f.isOrganise));
+            } else {
+                renderFlights(allFlights.filter(f => f.days.includes(type) && !f.isOrganise));
             }
         }
 
-        function createCard(o) {
-            return `
-                <div class="card-flight shadow-lg">
-                    <div class="relative h-56">
-                        <img src="${imgIstanbul}" class="w-full h-full object-cover">
-                        <div class="absolute top-4 left-4 bg-white/95 px-4 py-1 rounded-full text-[10px] font-black uppercase text-sky-600 shadow-sm">${o.company}</div>
-                        <div class="absolute bottom-4 right-4 bg-red-600 text-white px-3 py-1 rounded-lg text-[10px] font-black uppercase tracking-widest italic shadow-lg">Offre Spéciale</div>
-                    </div>
-                    <div class="p-8 flex-grow flex flex-col justify-between">
-                        <div>
-                            <div class="flex justify-between items-center mb-2">
-                                <h4 class="text-2xl font-black text-slate-800 tracking-tighter">${o.displayDate}</h4>
-                                <span class="bg-sky-50 text-sky-700 px-3 py-1 rounded-md font-bold text-xs">${o.duration}</span>
-                            </div>
-                            <div class="flex items-baseline gap-1 mb-4">
-                                <span class="text-4xl font-black text-slate-900">${o.price}</span>
-                                <span class="text-sm font-bold text-slate-400">DA</span>
-                            </div>
-                            <div class="bg-blue-50 text-blue-700 p-3 rounded-xl text-xs font-black flex items-center gap-2 mb-6 border border-blue-100 italic">
-                                <i class="fas fa-suitcase"></i> BAGAGE: ${o.bag}
-                            </div>
-                        </div>
-                        <button onclick="openPlan('${o.displayDate}', '${o.price}', \`${o.plan.replace(/;/g, '<br>')}\`)" class="w-full bg-[#0F172A] text-white py-5 rounded-2xl font-extrabold hover:bg-sky-600 transition-all flex items-center justify-center gap-3 uppercase shadow-xl shadow-slate-200">
-                            Voir Détails du Vol <i class="fas fa-chevron-right text-xs text-sky-400"></i>
-                        </button>
-                    </div>
-                </div>`;
-        }
-
-        function openPlan(date, price, plan) {
-            const modal = document.getElementById('modal');
-            const content = document.getElementById('modalContent');
-            const msg = encodeURIComponent(`Bonjour Hazar Travels, je souhaite réserver votre offre :\n📅 Dates: ${date}\n💰 Prix: ${price} DA\nMerci.`);
-            content.innerHTML = `
-                <div class="text-center mb-8">
-                    <div class="w-16 h-16 bg-sky-50 text-sky-600 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl shadow-inner">
-                        <i class="fas fa-plane"></i>
-                    </div>
-                    <h3 class="text-2xl font-black text-slate-800 uppercase italic leading-none">Détails du Vol</h3>
-                    <p class="text-slate-400 font-bold text-xs mt-2 uppercase tracking-[0.2em]">${date}</p>
-                </div>
-                <div class="plan-entry text-slate-600 text-sm mb-10 leading-relaxed font-medium">
-                    ${plan || "Contactez-nous pour le plan de vol détaillé."}
-                </div>
-                <div class="space-y-4">
-                    <a href="https://wa.me/${myPhone}?text=${msg}" target="_blank" class="w-full bg-green-500 text-white py-5 rounded-2xl flex items-center justify-center gap-4 font-black shadow-xl shadow-green-200 hover:bg-green-600 transition-all transform hover:scale-[1.02]">
-                        <i class="fab fa-whatsapp text-2xl"></i> RÉSERVER SUR WHATSAPP
-                    </a>
-                </div>`;
-            modal.style.display = 'flex';
-        }
-
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-        render();
+        init();
     </script>
 </body>
 </html>

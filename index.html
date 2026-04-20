@@ -3,116 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HAZAR TRAVELS | Officiel</title>
+    <title>HAZAR TRAVELS | Offres Spéciales</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --primary: #0F172A; --accent: #3B82F6; --turkish-red: #E81932; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; margin: 0; padding-top: 140px; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; margin: 0; padding-top: 130px; }
         
-        /* Navigation */
-        .nav-hazar { background: var(--primary); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 12px 16px; border-bottom: 3px solid var(--accent); transition: transform 0.4s ease; }
-        .nav-hidden { transform: translateY(-100%); }
+        .nav-hazar { background: var(--primary); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 15px 20px; border-bottom: 3px solid var(--accent); }
 
-        /* Filtres */
-        .filter-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; scrollbar-width: none; }
-        .filter-btn { flex-shrink: 0; padding: 8px 18px; border-radius: 12px; font-weight: 800; font-size: 10px; text-transform: uppercase; color: #94A3B8; border: 1px solid rgba(255,255,255,0.1); }
-        .filter-btn.active { background: var(--accent); color: white; }
-
-        /* Séparateurs de villes */
-        .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 15px; margin: 30px 0 15px 0; }
-        .city-divider h3 { font-weight: 900; font-size: 14px; text-transform: uppercase; color: var(--primary); }
+        .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 15px; margin: 20px 0 10px 0; }
+        .city-divider h3 { font-weight: 900; font-size: 13px; text-transform: uppercase; color: var(--primary); opacity: 0.8; }
         .city-line { height: 1px; background: #E2E8F0; flex-grow: 1; }
 
-        /* Cartes */
-        .card-flight { background: white; border-radius: 28px; overflow: hidden; border: 1px solid #E2E8F0; transition: 0.3s; }
+        .card-flight { background: white; border-radius: 24px; overflow: hidden; border: 1px solid #E2E8F0; transition: 0.3s; position: relative; }
         .card-flight:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
         
-        .img-container { height: 230px; position: relative; overflow: hidden; background: #cbd5e1; }
+        .img-container { height: 200px; position: relative; overflow: hidden; background: #cbd5e1; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
         .card-flight:hover .img-container img { transform: scale(1.1); }
         
-        .airline-tag { position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); padding: 5px 12px; border-radius: 8px; font-size: 9px; font-weight: 900; color: var(--primary); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 1px solid #E2E8F0; }
-        .places-badge { position: absolute; bottom: 15px; right: 15px; background: white; padding: 6px 14px; border-radius: 12px; font-size: 11px; font-weight: 900; color: var(--turkish-red); z-index: 10; border: 1px solid #fee2e2; }
+        .airline-tag { position: absolute; top: 12px; left: 12px; background: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; color: var(--primary); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+        .places-badge { position: absolute; bottom: 12px; right: 12px; background: var(--turkish-red); padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; color: white; z-index: 10; }
 
-        /* Section Détails - Style Rouge */
-        .extra-info { display: none; padding: 20px; border-top: 1px dashed #E2E8F0; background: #FBFCFE; }
-        .info-active { display: block !important; }
-        .company-detail { color: var(--turkish-red); font-weight: 900; font-size: 13px; text-transform: uppercase; display: flex; align-items: center; gap: 8px; margin-bottom: 12px; border-left: 3px solid var(--turkish-red); padding-left: 10px; }
-
-        /* Modal */
-        #bookingModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 2000; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
-        .modal-content { background: white; width: 100%; max-width: 420px; border-radius: 32px; padding: 35px; position: relative; }
-        input { width: 100%; padding: 15px; margin-bottom: 12px; border: 1.5px solid #F1F5F9; background: #F8FAFC; border-radius: 16px; font-weight: 600; }
+        .promo-badge { background: #DCFCE7; color: #166534; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: inline-block; }
     </style>
 </head>
 <body>
 
-    <nav id="navbar" class="nav-hazar">
-        <div class="max-w-7xl mx-auto">
+    <nav class="nav-hazar">
+        <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-900 font-black text-xl italic shadow-lg">H</div>
-                <h1 class="text-white font-black text-lg uppercase italic tracking-tighter">Hazar Travels</h1>
+                <div>
+                    <h1 class="text-white font-black text-lg uppercase italic tracking-tighter leading-none">Hazar Travels</h1>
+                    <span class="text-blue-400 font-bold text-[9px] uppercase tracking-widest">Billets Promotionnels</span>
+                </div>
             </div>
-            <div class="filter-wrapper mt-3">
-                <button onclick="applyFilter('all')" id="btn-all" class="filter-btn active">Tout</button>
-                <button onclick="applyFilter('4')" id="btn-4" class="filter-btn">4 Jours</button>
-                <button onclick="applyFilter('7')" id="btn-7" class="filter-btn">7 Jours</button>
-                <button onclick="applyFilter('8')" id="btn-8" class="filter-btn">8 Jours</button>
-                <button onclick="applyFilter('organise')" id="btn-organise" class="filter-btn text-amber-400">Organisés</button>
-            </div>
+            <i class="fas fa-bell text-blue-400 animate-pulse"></i>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-4 pb-24">
-        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+    <main class="max-w-7xl mx-auto px-4 pb-20">
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            </div>
     </main>
-
-    <div id="bookingModal">
-        <div class="modal-content">
-            <button onclick="closeModal()" class="absolute top-6 right-6 text-slate-400"><i class="fas fa-times text-xl"></i></button>
-            <h2 class="text-2xl font-black text-slate-900 mb-1">RÉSERVER</h2>
-            <p id="modalDest" class="text-blue-600 font-extrabold text-xs mb-6 uppercase"></p>
-            <form id="resForm">
-                <input type="text" id="nom" placeholder="Nom" required>
-                <input type="text" id="prenom" placeholder="Prénom" required>
-                <input type="text" id="phone" placeholder="Téléphone" required>
-                <input type="text" id="passport" placeholder="N° Passport" required>
-                <p class="text-[10px] font-black text-slate-400 mb-2 ml-1 uppercase text-left">Date Exp Passport</p>
-                <input type="date" id="passExp" required>
-                <button type="submit" id="submitBtn" class="w-full bg-slate-900 text-white py-5 rounded-2xl font-black text-sm uppercase shadow-xl mt-4 flex items-center justify-center gap-3">
-                    CONFIRMER <i class="fab fa-whatsapp text-green-400"></i>
-                </button>
-            </form>
-        </div>
-    </div>
 
     <script>
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
-        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycby18_n4Dwb_SSlt-2w39xAQDXaYjqNggu8YYHgtrMDzDhTNClgrmcAmA6528395Cacbpw/exec";
-
-        let dataStore = [];
-        let lastScroll = 0;
-
-        window.addEventListener("scroll", () => {
-            const currentScroll = window.pageYOffset;
-            const nav = document.getElementById("navbar");
-            if (currentScroll > lastScroll && currentScroll > 100) nav.classList.add("nav-hidden");
-            else nav.classList.remove("nav-hidden");
-            lastScroll = currentScroll;
-        });
-
-        // Gestionnaire d'images avec Fallback
-        const getFallbackImg = (dest, isOrg) => {
-            const d = dest.toLowerCase();
-            if (isOrg) {
-                if (d.includes("istanbul")) return "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800";
-                if (d.includes("tunis")) return "https://images.unsplash.com/photo-1533104816931-20fa69186c44?w=800";
-                return "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800";
-            }
-            return "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800";
-        };
+        const WHATSAPP_NUM = "213558332601";
 
         const companyMap = { "tk": "Turkish Airlines", "ah": "Air Algérie", "tu": "Tunisair" };
 
@@ -123,23 +63,23 @@
                 const rows = text.split(/\r?\n/).filter(r => r.trim().length > 10);
                 const sep = rows[0].includes(';') ? ';' : ',';
 
-                dataStore = rows.slice(1).map((row, index) => {
+                const data = rows.slice(1).map((row) => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
-                    const dest = c[1] || "";
-                    const isOrg = row.toLowerCase().includes("organise");
-                    const airlineKey = (c[5] || "").toLowerCase();
-                    const airlineName = companyMap[airlineKey] || c[5] || "Compagnie Directe";
+                    if (row.toLowerCase().includes("organise")) return null; // On ignore les voyages organisés
 
+                    const airlineKey = (c[5] || "").toLowerCase();
+                    const dest = c[1] || "";
                     let sheetImg = c.find(f => f.startsWith('http'));
-                    let finalImg = sheetImg ? sheetImg : getFallbackImg(dest, isOrg);
 
                     return {
-                        id: index, date: c[0], dest: dest, prix: c[2], duree: c[3],
-                        filterId: (c[3] || "").match(/\d+/) ? (c[3] || "").match(/\d+/)[0] : "all",
-                        bag: c[4], airline: airlineName, plan: c[6], places: c[7], image: finalImg, isOrg: isOrg
+                        date: c[0], dest: dest, prix: c[2], duree: c[3],
+                        bag: c[4], airline: companyMap[airlineKey] || c[5] || "Vol Direct",
+                        plan: c[6], places: c[7], 
+                        image: sheetImg || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800"
                     };
-                });
-                render(dataStore);
+                }).filter(o => o !== null);
+
+                render(data);
             } catch (e) { console.error(e); }
         }
 
@@ -148,80 +88,56 @@
             container.innerHTML = "";
             
             const groups = items.reduce((acc, i) => {
-                let city = "Départs d'Alger";
-                if (i.dest.toLowerCase().includes("constantine")) city = "Départs de Constantine";
+                let city = i.dest.toLowerCase().includes("constantine") ? "Départs de Constantine" : "Départs d'Alger";
                 if (!acc[city]) acc[city] = [];
                 acc[city].push(i);
                 return acc;
             }, {});
 
             Object.keys(groups).forEach(city => {
-                container.innerHTML += `<div class="city-divider"><h3><i class="fas fa-plane text-blue-500 mr-2"></i> ${city}</h3><div class="city-line"></div></div>`;
+                container.innerHTML += `<div class="city-divider"><h3><i class="fas fa-plane-departure mr-2"></i> ${city}</h3><div class="city-line"></div></div>`;
+                
                 groups[city].forEach(item => {
                     container.innerHTML += `
                     <div class="card-flight">
                         <div class="img-container">
-                            <img src="${item.image}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800'">
-                            <div class="airline-tag"><i class="fas fa-check-circle text-blue-500 mr-1"></i> ${item.airline}</div>
-                            <div class="places-badge">${item.places} ${isNaN(item.places) ? "" : "PLACES"}</div>
+                            <img src="${item.image}" loading="lazy">
+                            <div class="airline-tag">${item.airline}</div>
+                            <div class="places-badge">${item.places} PLACES</div>
                         </div>
-                        <div class="p-6">
+                        <div class="p-5">
+                            <div class="promo-badge">Offre Spéciale</div>
                             <h2 class="text-xl font-black text-slate-900 uppercase tracking-tighter">${item.dest}</h2>
-                            <p class="text-blue-600 font-extrabold text-[11px] uppercase mb-4">${item.date} — ${item.duree}</p>
-                            <div class="flex items-center justify-between">
-                                <span class="text-2xl font-black text-slate-900">${item.prix} <small class="text-xs uppercase text-slate-400">DA</small></span>
-                                <button onclick="toggleInfo(${item.id})" class="text-[10px] font-black uppercase text-blue-600 border-b-2 border-blue-50">Détails <i class="fas fa-plus ml-1 text-[8px]"></i></button>
+                            <div class="flex justify-between items-center mt-1 mb-4">
+                                <p class="text-slate-500 font-bold text-[11px]">${item.date} • ${item.duree}</p>
+                                <p class="text-slate-700 font-bold text-[11px]"><i class="fas fa-suitcase mr-1"></i>${item.bag}</p>
                             </div>
-                            <div id="info-${item.id}" class="extra-info rounded-2xl mt-4">
-                                <div class="company-detail">
-                                    <i class="fas fa-plane-departure"></i> ${item.airline}
-                                </div>
-                                <div class="space-y-3 mb-6">
-                                    <div class="flex items-center"><i class="fas fa-suitcase text-slate-400 w-5"></i><p class="text-xs font-bold text-slate-700 ml-2">Bagage : ${item.bag}</p></div>
-                                    <div class="bg-blue-50 p-4 rounded-xl"><p class="text-[11px] font-medium text-slate-600 leading-relaxed italic">${item.plan}</p></div>
-                                </div>
-                                <button onclick="openModal(${item.id})" class="w-full bg-blue-600 text-white py-4 rounded-2xl font-black text-xs uppercase shadow-lg">Réserver Maintenant</button>
+                            
+                            <div class="bg-slate-50 p-3 rounded-xl mb-5">
+                                <p class="text-[11px] text-slate-600 italic leading-snug">${item.plan}</p>
                             </div>
+
+                            <button onclick="book('${item.dest}', '${item.prix}', '${item.date}')" 
+                                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-black text-sm uppercase shadow-lg transition-all flex items-center justify-center gap-3">
+                                <span class="text-lg">${item.prix} DA</span>
+                                <span class="h-6 w-[1px] bg-blue-400"></span>
+                                RÉSERVER <i class="fab fa-whatsapp"></i>
+                            </button>
                         </div>
                     </div>`;
                 });
             });
         }
 
-        function toggleInfo(id) { document.getElementById(`info-${id}`).classList.toggle('info-active'); }
-        
-        function openModal(id) {
-            window.selectedOffer = dataStore.find(i => i.id === id);
-            document.getElementById('modalDest').innerText = window.selectedOffer.dest;
-            document.getElementById('bookingModal').style.display = 'flex';
+        function book(dest, prix, date) {
+            // Message WhatsApp pré-rempli
+            const msg = `Bonjour Hazar Travels, je souhaite réserver l'OFFRE SPÉCIALE :\n\n✈️ Destination: ${dest}\n💰 Prix: ${prix} DA\n📅 Date: ${date}\n\nMerci de me confirmer la disponibilité.`;
+            const url = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
+            
+            // Redirection immédiate
+            window.open(url, '_blank');
         }
 
-        function closeModal() { document.getElementById('bookingModal').style.display = 'none'; }
-
-        document.getElementById('resForm').onsubmit = async (e) => {
-            e.preventDefault();
-            const btn = document.getElementById('submitBtn'); btn.innerText = "ENVOI...";
-            const formData = { 
-                destination: window.selectedOffer.dest, 
-                nom: document.getElementById('nom').value, 
-                prenom: document.getElementById('prenom').value, 
-                phone: document.getElementById('phone').value, 
-                passport: document.getElementById('passport').value 
-            };
-            try {
-                await fetch(SCRIPT_URL, { method: 'POST', mode: 'no-cors', body: JSON.stringify(formData) });
-                window.open(`https://wa.me/213558332601?text=Bonjour Hazar Travels, je souhaite réserver pour: ${window.selectedOffer.dest}`, '_blank');
-                location.reload();
-            } catch (err) { alert("Erreur de connexion"); }
-        };
-
-        function applyFilter(cat) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById('btn-' + cat).classList.add('active');
-            if (cat === 'all') render(dataStore);
-            else if (cat === 'organise') render(dataStore.filter(i => i.isOrg));
-            else render(dataStore.filter(i => i.filterId === cat && !i.isOrg));
-        }
         init();
     </script>
 </body>

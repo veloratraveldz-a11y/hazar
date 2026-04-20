@@ -3,22 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PRESTA TOURS | Excellence Voyage</title>
+    <title>PRESTA TOURS | Promo Billet d'Avion</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { 
-            --deep-blue: #0A1E3B; /* Bleu Nuit Royal */
-            --gold-elegant: #C5A059; /* Doré Champagne / Sable */
+            --deep-blue: #0A1E3B; 
+            --gold-elegant: #C5A059; 
             --soft-gold: #E5D5B7;
-            --flash-red: #D92D20; /* Rouge plus mat, moins agressif */
+            --flash-red: #D92D20; 
             --bg-soft: #F8FAFC;
         }
         
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-soft); color: var(--deep-blue); margin: 0; padding-top: 170px; }
         
-        /* Header Prestigieux */
         .nav-presta { 
             background: var(--deep-blue); 
             position: fixed; 
@@ -31,7 +30,6 @@
         }
         .nav-hidden { transform: translateY(-100%); }
 
-        /* Vente Flash Élégante */
         .flash-sale-banner { 
             background: linear-gradient(90deg, #9b1c1c, var(--flash-red), #9b1c1c); 
             color: white; 
@@ -42,29 +40,26 @@
             padding: 5px 0; 
             margin: -12px -20px 12px -20px;
         }
+        .marquee { display: inline-block; animation: marquee 18s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        /* Filtres "Soft Gold" */
         .filter-btn { 
             flex-shrink: 0; padding: 7px 18px; border-radius: 8px; 
             font-weight: 600; font-size: 11px; text-transform: uppercase; 
             color: var(--soft-gold); border: 1px solid rgba(197, 160, 89, 0.3); 
-            transition: 0.3s ease;
         }
         .filter-btn.active { background: var(--gold-elegant); color: white; border-color: var(--gold-elegant); }
 
-        /* Cartes Minimalistes */
         .card-flight { 
             background: white; border-radius: 20px; overflow: hidden; 
             border: 1px solid #E5EBF1; position: relative; transition: 0.4s; 
         }
-        .card-flight:hover { border-color: var(--gold-elegant); box-shadow: 0 20px 40px rgba(10, 30, 59, 0.05); }
+        .card-flight:hover { border-color: var(--gold-elegant); }
         
-        /* Zoom Effect */
         .img-container { height: 230px; position: relative; overflow: hidden; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease; }
         .card-flight:hover .img-container img { transform: scale(1.1); }
         
-        /* Badges */
         .airline-badge { 
             position: absolute; top: 15px; left: 15px; background: rgba(255,255,255,0.95); 
             padding: 5px 12px; border-radius: 6px; font-weight: 800; font-size: 9px; 
@@ -74,13 +69,12 @@
         .price-tag { color: var(--flash-red); font-size: 30px; font-weight: 800; letter-spacing: -1px; }
         
         .btn-whatsapp { 
-            background: #065F46; /* Vert Émeraude Profond */
+            background: #065F46; 
             color: white; padding: 18px; border-radius: 12px; 
             font-weight: 700; text-transform: uppercase; font-size: 13px;
             display: flex; align-items: center; justify-content: center; 
             gap: 10px; transition: 0.3s; width: 100%; 
         }
-        .btn-whatsapp:hover { background: #047857; }
 
         .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 15px; margin: 30px 0 10px 0; }
         .city-divider h3 { font-weight: 800; font-size: 12px; text-transform: uppercase; color: var(--gold-elegant); letter-spacing: 2px; }
@@ -91,7 +85,7 @@
 
     <nav id="navbar" class="nav-presta">
         <div class="flash-sale-banner">
-            <div class="marquee">✨ OFFRES EXCLUSIVES PRESTA TOURS — L'EXCELLENCE DU VOYAGE À PRIX PROMOTIONNEL ✨</div>
+            <div class="marquee">✨ VENTE FLASH PRESTA TOURS — BILLETS D'AVION EN PROMOTION — RÉSERVEZ MAINTENANT ✨</div>
         </div>
         <div class="max-w-7xl mx-auto flex flex-col gap-4">
             <div class="flex items-center justify-between">
@@ -99,13 +93,12 @@
                     <div class="w-12 h-12 border-2 border-[var(--gold-elegant)] rounded-full flex items-center justify-center text-[var(--gold-elegant)] font-light text-2xl">P</div>
                     <div>
                         <h1 class="text-white font-bold text-xl tracking-tight leading-none">PRESTA TOURS</h1>
-                        <span class="text-[var(--gold-elegant)] font-medium text-[9px] uppercase tracking-[0.3em]">Signature Travel</span>
+                        <span class="text-[var(--gold-elegant)] font-medium text-[9px] uppercase tracking-[0.2em]">Promo billet d'avion</span>
                     </div>
                 </div>
-                <div class="hidden md:block text-[var(--soft-gold)] text-[10px] font-semibold uppercase">Alger • Istanbul • Tunis</div>
             </div>
             
-            <div class="flex overflow-x-auto gap-3 pb-1 no-scrollbar">
+            <div class="flex overflow-x-auto gap-3 pb-1">
                 <button onclick="applyFilter('all')" id="btn-all" class="filter-btn active">Toutes les offres</button>
                 <button onclick="applyFilter('4')" id="btn-4" class="filter-btn">4 Jours</button>
                 <button onclick="applyFilter('7')" id="btn-7" class="filter-btn">7 Jours</button>
@@ -122,6 +115,15 @@
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
         let dataStore = [];
         let lastScroll = 0;
+
+        // Dictionnaire pour les noms complets des compagnies
+        const companyFullNames = {
+            "tk": "Turkish Airlines",
+            "ah": "Air Algérie",
+            "tu": "Tunisair",
+            "qr": "Qatar Airways",
+            "ek": "Emirates"
+        };
 
         window.addEventListener("scroll", () => {
             const currentScroll = window.pageYOffset;
@@ -141,11 +143,17 @@
                 dataStore = rows.slice(1).map((row) => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
                     if (row.toLowerCase().includes("organise")) return null;
+                    
                     const dureeVal = (c[3] || "").match(/\d+/);
+                    
+                    // Conversion du nom de la compagnie
+                    let shortName = (c[5] || "").toLowerCase();
+                    let fullName = companyFullNames[shortName] || c[5] || "Compagnie Aérienne";
+
                     return {
                         date: c[0], dest: c[1], prix: c[2], duree: c[3],
                         filterId: dureeVal ? dureeVal[0] : "all",
-                        bag: c[4], airline: c[5] || "Turkish Airlines",
+                        bag: c[4], airline: fullName,
                         plan: c[6], places: c[7], 
                         image: c.find(f => f.startsWith('http')) || "https://images.unsplash.com/photo-1524231757912-21f4fe3a7200?w=800"
                     };
@@ -158,64 +166,4 @@
             const container = document.getElementById('grid');
             container.innerHTML = "";
             const groups = items.reduce((acc, i) => {
-                let city = i.dest.toLowerCase().includes("constantine") ? "Départs Constantine" : "Départs Alger";
-                if (!acc[city]) acc[city] = [];
-                acc[city].push(i);
-                return acc;
-            }, {});
-
-            Object.keys(groups).forEach(city => {
-                container.innerHTML += `<div class="city-divider"><h3>${city}</h3><div class="city-line"></div></div>`;
-                groups[city].forEach(item => {
-                    container.innerHTML += `
-                    <div class="card-flight">
-                        <div class="img-container">
-                            <img src="${item.image}" loading="lazy">
-                            <div class="airline-badge">${item.airline}</div>
-                            <div class="absolute bottom-4 left-4 bg-black/60 backdrop-blur-md text-white text-[9px] px-3 py-1 rounded-full font-bold">
-                                DISPONIBLE : ${item.places} PLACES
-                            </div>
-                        </div>
-                        <div class="p-7">
-                            <h2 class="text-2xl font-bold text-[var(--deep-blue)] uppercase tracking-tight mb-2">${item.dest}</h2>
-                            <div class="flex items-center gap-4 mb-6 text-slate-400 font-medium text-[11px] uppercase tracking-wider">
-                                <span>${item.date}</span>
-                                <span class="w-1 h-1 bg-gold-elegant rounded-full"></span>
-                                <span>${item.duree}</span>
-                            </div>
-                            
-                            <div class="flex justify-between items-end mb-8">
-                                <div>
-                                    <p class="text-[10px] text-slate-400 font-bold uppercase mb-1">Tarif Spécial</p>
-                                    <span class="price-tag">${item.prix} DA</span>
-                                </div>
-                                <div class="text-[11px] text-slate-500 font-semibold italic">
-                                    Inclus: ${item.bag}
-                                </div>
-                            </div>
-
-                            <button onclick="sendWhatsApp('${item.dest}', '${item.prix}', '${item.date}')" class="btn-whatsapp">
-                                RÉSERVER L'OFFRE <i class="fab fa-whatsapp text-xl"></i>
-                            </button>
-                        </div>
-                    </div>`;
-                });
-            });
-        }
-
-        function applyFilter(cat) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            const activeBtn = document.getElementById('btn-' + cat);
-            if(activeBtn) activeBtn.classList.add('active');
-            render(cat === 'all' ? dataStore : dataStore.filter(i => i.filterId === cat));
-        }
-
-        function sendWhatsApp(dest, prix, date) {
-            const msg = encodeURIComponent(`Bonjour PRESTA TOURS, je souhaite réserver l'offre pour ${dest} (${date}) au prix de ${prix} DA.`);
-            window.open(`https://wa.me/213558332601?text=${msg}`, '_blank');
-        }
-
-        init();
-    </script>
-</body>
-</html>
+                let city = i.dest.toLowerCase().includes("constantine") ? "

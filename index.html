@@ -3,58 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>HAZAR TRAVELS | Offres Spéciales</title>
+    <title>HAZAR TRAVELS | Vente Flash</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        :root { --primary: #0F172A; --accent: #3B82F6; --turkish-red: #E81932; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; margin: 0; padding-top: 130px; }
+        :root { --primary: #0F172A; --accent: #3B82F6; --turkish-red: #E81932; --whatsapp-green: #25D366; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; margin: 0; padding-top: 160px; }
         
-        .nav-hazar { background: var(--primary); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 15px 20px; border-bottom: 3px solid var(--accent); }
+        /* Header avec disparition au scroll */
+        .nav-hazar { background: var(--primary); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 10px 16px; border-bottom: 3px solid var(--turkish-red); transition: transform 0.4s ease; }
+        .nav-hidden { transform: translateY(-100%); }
 
-        .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 15px; margin: 20px 0 10px 0; }
-        .city-divider h3 { font-weight: 900; font-size: 13px; text-transform: uppercase; color: var(--primary); opacity: 0.8; }
-        .city-line { height: 1px; background: #E2E8F0; flex-grow: 1; }
+        /* Animation Vente Flash */
+        .flash-sale-banner { background: var(--turkish-red); color: white; font-size: 10px; font-weight: 900; text-transform: uppercase; padding: 4px 0; overflow: hidden; white-space: nowrap; margin: -10px -16px 10px -16px; }
+        .marquee { display: inline-block; animation: marquee 15s linear infinite; }
+        @keyframes marquee { 0% { transform: translateX(100%); } 100% { transform: translateX(-100%); } }
 
-        .card-flight { background: white; border-radius: 24px; overflow: hidden; border: 1px solid #E2E8F0; transition: 0.3s; position: relative; }
-        .card-flight:hover { transform: translateY(-5px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        
-        .img-container { height: 200px; position: relative; overflow: hidden; background: #cbd5e1; }
+        /* Filtres */
+        .filter-wrapper { display: flex; overflow-x: auto; gap: 8px; padding: 10px 0; scrollbar-width: none; }
+        .filter-btn { flex-shrink: 0; padding: 8px 18px; border-radius: 12px; font-weight: 800; font-size: 10px; text-transform: uppercase; color: #94A3B8; border: 1px solid rgba(255,255,255,0.1); }
+        .filter-btn.active { background: var(--turkish-red); color: white; border-color: var(--turkish-red); }
+
+        /* Cartes & Prix */
+        .card-flight { background: white; border-radius: 24px; overflow: hidden; border: 1px solid #E2E8F0; position: relative; }
+        .img-container { height: 210px; position: relative; overflow: hidden; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
         .card-flight:hover .img-container img { transform: scale(1.1); }
         
-        .airline-tag { position: absolute; top: 12px; left: 12px; background: white; padding: 4px 10px; border-radius: 6px; font-size: 10px; font-weight: 900; color: var(--primary); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .places-badge { position: absolute; bottom: 12px; right: 12px; background: var(--turkish-red); padding: 4px 10px; border-radius: 8px; font-size: 10px; font-weight: 900; color: white; z-index: 10; }
+        .price-tag { color: var(--turkish-red); font-size: 28px; font-weight: 900; letter-spacing: -1px; }
+        
+        .btn-whatsapp { background: var(--whatsapp-green); color: white; padding: 18px; border-radius: 20px; font-weight: 900; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 10px 20px rgba(37, 211, 102, 0.2); transition: 0.3s; width: 100%; }
+        .btn-whatsapp:active { transform: scale(0.95); }
 
-        .promo-badge { background: #DCFCE7; color: #166534; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: 800; text-transform: uppercase; margin-bottom: 8px; display: inline-block; }
+        .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 15px; margin: 20px 0 10px 0; }
+        .city-divider h3 { font-weight: 900; font-size: 12px; text-transform: uppercase; color: var(--primary); }
+        .city-line { height: 1px; background: #E2E8F0; flex-grow: 1; }
     </style>
 </head>
 <body>
 
-    <nav class="nav-hazar">
-        <div class="max-w-7xl mx-auto flex items-center justify-between">
+    <nav id="navbar" class="nav-hazar">
+        <div class="flash-sale-banner">
+            <div class="marquee">🔥 VENTE FLASH DISPONIBLE — RÉSERVEZ MAINTENANT — OFFRES LIMITÉES — HAZAR TRAVELS 🔥</div>
+        </div>
+        <div class="max-w-7xl mx-auto">
             <div class="flex items-center gap-3">
                 <div class="w-10 h-10 bg-white rounded-xl flex items-center justify-center text-slate-900 font-black text-xl italic shadow-lg">H</div>
-                <div>
-                    <h1 class="text-white font-black text-lg uppercase italic tracking-tighter leading-none">Hazar Travels</h1>
-                    <span class="text-blue-400 font-bold text-[9px] uppercase tracking-widest">Billets Promotionnels</span>
-                </div>
+                <h1 class="text-white font-black text-lg uppercase italic tracking-tighter">Hazar Travels</h1>
             </div>
-            <i class="fas fa-bell text-blue-400 animate-pulse"></i>
+            <div class="filter-wrapper mt-2">
+                <button onclick="applyFilter('all')" id="btn-all" class="filter-btn active">Tout</button>
+                <button onclick="applyFilter('4')" id="btn-4" class="filter-btn">4 Jours</button>
+                <button onclick="applyFilter('7')" id="btn-7" class="filter-btn">7 Jours</button>
+                <button onclick="applyFilter('8')" id="btn-8" class="filter-btn">8 Jours</button>
+            </div>
         </div>
     </nav>
 
     <main class="max-w-7xl mx-auto px-4 pb-20">
-        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            </div>
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
     <script>
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
-        const WHATSAPP_NUM = "213558332601";
+        let dataStore = [];
+        let lastScroll = 0;
 
-        const companyMap = { "tk": "Turkish Airlines", "ah": "Air Algérie", "tu": "Tunisair" };
+        // Effet scroll pour cacher/montrer le header
+        window.addEventListener("scroll", () => {
+            const currentScroll = window.pageYOffset;
+            const nav = document.getElementById("navbar");
+            if (currentScroll > lastScroll && currentScroll > 150) {
+                nav.classList.add("nav-hidden");
+            } else {
+                nav.classList.remove("nav-hidden");
+            }
+            lastScroll = currentScroll;
+        });
 
         async function init() {
             try {
@@ -63,23 +89,21 @@
                 const rows = text.split(/\r?\n/).filter(r => r.trim().length > 10);
                 const sep = rows[0].includes(';') ? ';' : ',';
 
-                const data = rows.slice(1).map((row) => {
+                dataStore = rows.slice(1).map((row) => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
-                    if (row.toLowerCase().includes("organise")) return null; // On ignore les voyages organisés
+                    if (row.toLowerCase().includes("organise")) return null;
 
-                    const airlineKey = (c[5] || "").toLowerCase();
-                    const dest = c[1] || "";
-                    let sheetImg = c.find(f => f.startsWith('http'));
-
+                    const dureeVal = (c[3] || "").match(/\d+/);
                     return {
-                        date: c[0], dest: dest, prix: c[2], duree: c[3],
-                        bag: c[4], airline: companyMap[airlineKey] || c[5] || "Vol Direct",
+                        date: c[0], dest: c[1], prix: c[2], duree: c[3],
+                        filterId: dureeVal ? dureeVal[0] : "all",
+                        bag: c[4], airline: c[5] || "Vol Direct",
                         plan: c[6], places: c[7], 
-                        image: sheetImg || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800"
+                        image: c.find(f => f.startsWith('http')) || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800"
                     };
                 }).filter(o => o !== null);
 
-                render(data);
+                render(dataStore);
             } catch (e) { console.error(e); }
         }
 
@@ -95,33 +119,26 @@
             }, {});
 
             Object.keys(groups).forEach(city => {
-                container.innerHTML += `<div class="city-divider"><h3><i class="fas fa-plane-departure mr-2"></i> ${city}</h3><div class="city-line"></div></div>`;
-                
+                container.innerHTML += `<div class="city-divider"><h3>${city}</h3><div class="city-line"></div></div>`;
                 groups[city].forEach(item => {
                     container.innerHTML += `
-                    <div class="card-flight">
+                    <div class="card-flight shadow-sm">
                         <div class="img-container">
-                            <img src="${item.image}" loading="lazy">
-                            <div class="airline-tag">${item.airline}</div>
-                            <div class="places-badge">${item.places} PLACES</div>
+                            <img src="${item.image}">
+                            <div class="absolute top-4 left-4 bg-white/90 px-3 py-1 rounded font-black text-[9px] uppercase">${item.airline}</div>
+                            <div class="absolute bottom-4 right-4 bg-red-600 text-white px-3 py-1 rounded-full font-black text-[10px] animate-pulse">${item.places} PLACES RESTANTES</div>
                         </div>
-                        <div class="p-5">
-                            <div class="promo-badge">Offre Spéciale</div>
-                            <h2 class="text-xl font-black text-slate-900 uppercase tracking-tighter">${item.dest}</h2>
-                            <div class="flex justify-between items-center mt-1 mb-4">
-                                <p class="text-slate-500 font-bold text-[11px]">${item.date} • ${item.duree}</p>
-                                <p class="text-slate-700 font-bold text-[11px]"><i class="fas fa-suitcase mr-1"></i>${item.bag}</p>
-                            </div>
+                        <div class="p-6">
+                            <h2 class="text-2xl font-black text-slate-900 uppercase tracking-tighter leading-tight">${item.dest}</h2>
+                            <p class="text-slate-500 font-bold text-xs mb-4 italic">${item.date} — ${item.duree}</p>
                             
-                            <div class="bg-slate-50 p-3 rounded-xl mb-5">
-                                <p class="text-[11px] text-slate-600 italic leading-snug">${item.plan}</p>
+                            <div class="mb-6">
+                                <span class="text-xs font-bold text-slate-400 uppercase block">Prix Promotionnel</span>
+                                <span class="price-tag">${item.prix} DA</span>
                             </div>
 
-                            <button onclick="book('${item.dest}', '${item.prix}', '${item.date}')" 
-                                class="w-full bg-blue-600 hover:bg-blue-700 text-white py-4 rounded-2xl font-black text-sm uppercase shadow-lg transition-all flex items-center justify-center gap-3">
-                                <span class="text-lg">${item.prix} DA</span>
-                                <span class="h-6 w-[1px] bg-blue-400"></span>
-                                RÉSERVER <i class="fab fa-whatsapp"></i>
+                            <button onclick="sendWhatsApp('${item.dest}', '${item.prix}')" class="btn-whatsapp">
+                                RÉSERVER MAINTENANT <i class="fab fa-whatsapp text-2xl"></i>
                             </button>
                         </div>
                     </div>`;
@@ -129,13 +146,18 @@
             });
         }
 
-        function book(dest, prix, date) {
-            // Message WhatsApp pré-rempli
-            const msg = `Bonjour Hazar Travels, je souhaite réserver l'OFFRE SPÉCIALE :\n\n✈️ Destination: ${dest}\n💰 Prix: ${prix} DA\n📅 Date: ${date}\n\nMerci de me confirmer la disponibilité.`;
-            const url = `https://wa.me/${WHATSAPP_NUM}?text=${encodeURIComponent(msg)}`;
-            
-            // Redirection immédiate
-            window.open(url, '_blank');
+        function applyFilter(cat) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            const activeBtn = document.getElementById('btn-' + cat);
+            if(activeBtn) activeBtn.classList.add('active');
+
+            if (cat === 'all') render(dataStore);
+            else render(dataStore.filter(i => i.filterId === cat));
+        }
+
+        function sendWhatsApp(dest, prix) {
+            const msg = encodeURIComponent(`Bonjour Hazar Travels, je souhaite profiter de la VENTE FLASH pour : ${dest} (${prix} DA).`);
+            window.open(`https://wa.me/213558332601?text=${msg}`, '_blank');
         }
 
         init();

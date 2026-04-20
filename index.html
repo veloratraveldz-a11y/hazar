@@ -20,7 +20,6 @@
         .filter-btn { flex-shrink: 0; padding: 8px 18px; border-radius: 14px; font-weight: 800; font-size: 10px; text-transform: uppercase; color: #94A3B8; border: 1px solid rgba(255,255,255,0.15); transition: 0.3s; }
         .filter-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
 
-        /* STYLE DES SÉPARATEURS DE VILLE */
         .city-divider { grid-column: 1 / -1; display: flex; items-center: center; gap: 20px; margin: 40px 0 20px 0; }
         .city-divider h3 { font-weight: 900; font-size: 14px; text-transform: uppercase; letter-spacing: 0.2em; color: var(--primary); white-space: nowrap; }
         .city-line { height: 2px; background: linear-gradient(90deg, #E2E8F0 0%, transparent 100%); width: 100%; }
@@ -30,7 +29,7 @@
         .img-container { height: 240px; position: relative; overflow: hidden; background: #E2E8F0; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease; }
         .card-flight:hover .img-container img { transform: scale(1.12); }
-        .badge-ui { position: absolute; top: 18px; left: 18px; padding: 7px 14px; font-size: 9px; font-weight: 900; color: white; text-transform: uppercase; border-radius: 12px; box-shadow: 0 8px 16px rgba(0,0,0,0.2); z-index: 10; }
+        .badge-ui { position: absolute; top: 18px; left: 18px; padding: 7px 14px; font-size: 9px; font-weight: 900; color: white; text-transform: uppercase; border-radius: 12px; z-index: 10; }
         .badge-gold { background: var(--gold); }
         .badge-dark { background: var(--primary); }
         .airline-label { color: var(--turkish-red); font-weight: 800; font-size: 13px; text-transform: uppercase; border-left: 4px solid var(--turkish-red); padding-left: 12px; margin: 15px 0; }
@@ -75,15 +74,24 @@
                 dataStore = rows.slice(1).map(row => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
                     const dest = c[1] || "";
+                    const isOrg = row.toLowerCase().includes("organise") || dest.toLowerCase().includes("voyage");
                     
-                    // On détermine le départ pour le titre de section
+                    // --- LOGIQUE IMAGE AMÉLIORÉE ---
+                    let foundImg = c.find(field => field.toLowerCase().startsWith('http'));
+                    let finalImg = "";
+
+                    if (isOrg) {
+                        // Pour les voyages organisés, on veut ABSOLUMENT l'image du Google Sheet
+                        finalImg = foundImg ? foundImg.replace(/\s/g, '') : "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800";
+                    } else {
+                        // Pour les billets simples, si vide = Image d'aile d'avion par défaut
+                        finalImg = foundImg ? foundImg.replace(/\s/g, '') : "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800";
+                    }
+
                     let depart = "Vols Divers";
                     if (dest.toLowerCase().includes("constantine")) depart = "Départs de Constantine";
                     else if (dest.toLowerCase().includes("alger")) depart = "Départs d'Alger";
                     else if (dest.toLowerCase().includes("oran")) depart = "Départs d'Oran";
-
-                    let foundImg = c.find(field => field.toLowerCase().startsWith('http'));
-                    let finalImg = foundImg ? foundImg.replace(/\s/g, '') : "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800";
 
                     return {
                         date: c[0] || "",
@@ -95,7 +103,7 @@
                         airline: (c[5] || "").toUpperCase(),
                         plan: c[6] || "",
                         image: finalImg,
-                        isOrg: row.toLowerCase().includes("organise") || dest.toLowerCase().includes("voyage"),
+                        isOrg: isOrg,
                         departCity: depart
                     };
                 }).filter(i => i.dest.length > 2);
@@ -107,7 +115,6 @@
             const container = document.getElementById('grid');
             container.innerHTML = "";
             
-            // Groupement par ville de départ
             const groups = items.reduce((acc, item) => {
                 if (!acc[item.departCity]) acc[item.departCity] = [];
                 acc[item.departCity].push(item);
@@ -115,7 +122,6 @@
             }, {});
 
             Object.keys(groups).forEach(city => {
-                // Ajout du titre de séparation élégant
                 container.innerHTML += `
                     <div class="city-divider">
                         <h3><i class="fas fa-plane-departure mr-3 text-blue-500"></i>${city}</h3>

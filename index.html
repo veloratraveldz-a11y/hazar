@@ -18,7 +18,6 @@
         
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-soft); color: var(--deep-blue); margin: 0; padding-top: 170px; }
         
-        /* Header Standard */
         .nav-presta { 
             background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
             padding: 12px 20px; border-bottom: 3px solid var(--gold-elegant); 
@@ -26,26 +25,31 @@
         }
         .nav-hidden { transform: translateY(-100%); }
 
-        /* Filtres Demandés (4, 7, 8 Jours) */
         .filter-btn { 
             flex-shrink: 0; padding: 8px 20px; border-radius: 10px; font-weight: 600; font-size: 11px; 
             text-transform: uppercase; color: #E5D5B7; border: 1px solid rgba(197, 160, 89, 0.3); 
         }
         .filter-btn.active { background: var(--gold-elegant); color: white; border-color: var(--gold-elegant); }
 
-        /* Cartes & Zoom Effet */
-        .card-flight { background: white; border-radius: 28px; overflow: hidden; border: 1px solid #E5EBF1; transition: 0.3s; display: flex; flex-direction: column; }
+        .card-flight { background: white; border-radius: 28px; overflow: hidden; border: 1px solid #E5EBF1; transition: 0.3s; display: flex; flex-direction: column; position: relative; }
         .img-container { height: 210px; position: relative; overflow: hidden; }
         .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease; }
         .card-flight:hover .img-container img { transform: scale(1.1); }
         
-        /* Séparateur Ville avec Icône Avion */
+        /* BADGE COLONNE H (PLACES) */
+        .status-badge {
+            position: absolute; top: 15px; right: 15px;
+            background: var(--gold-elegant); color: white;
+            padding: 5px 12px; border-radius: 8px;
+            font-size: 10px; font-weight: 800; text-transform: uppercase;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 10;
+        }
+
         .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 15px; margin: 40px 0 20px 0; }
         .city-divider h3 { font-weight: 800; font-size: 15px; text-transform: uppercase; color: var(--deep-blue); letter-spacing: 1px; }
         .airplane-icon { color: var(--gold-elegant); font-size: 18px; transform: rotate(45deg); }
         .city-line { height: 1px; background: #CBD5E1; flex-grow: 1; }
 
-        /* Plan de Vol - Large & Clair */
         .plan-box { 
             background: #F0F7FF; border-radius: 16px; padding: 16px; 
             font-size: 14px; font-weight: 600; color: var(--deep-blue); 
@@ -56,7 +60,7 @@
         .price-tag { color: var(--turkish-red); font-size: 34px; font-weight: 800; line-height: 1; }
         .btn-whatsapp { background: var(--whatsapp-green); color: white; padding: 18px; border-radius: 16px; font-weight: 700; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-top: auto; }
 
-        .airline-tag { position: absolute; top: 15px; left: 15px; background: white; padding: 6px 14px; border-radius: 10px; font-size: 10px; font-weight: 800; color: var(--deep-blue); border-left: 4px solid var(--gold-elegant); }
+        .airline-tag { position: absolute; top: 15px; left: 15px; background: white; padding: 6px 14px; border-radius: 10px; font-size: 10px; font-weight: 800; color: var(--deep-blue); border-left: 4px solid var(--gold-elegant); z-index: 10; }
     </style>
 </head>
 <body>
@@ -108,7 +112,7 @@
 
                 dataStore = rows.slice(1).map((row) => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
-                    if (row.toLowerCase().includes("organise") || !c[1]) return null;
+                    if (!c[1]) return null;
 
                     const dureeVal = (c[3] || "").match(/\d+/);
                     let airlineCode = (c[5] || "").toLowerCase();
@@ -117,8 +121,9 @@
                         date: c[0], dest: c[1], prix: c[2], duree: c[3],
                         filterId: dureeVal ? dureeVal[0] : "all",
                         bag: c[4], airline: companyFullNames[airlineCode] || c[5],
-                        plan: c[6] || "Détails sur demande", 
-                        image: c.find(f => f.startsWith('http')) || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800"
+                        plan: c[6] || "Détails sur demande",
+                        places: c[7] || "", // COLONNE H
+                        image: c[8] || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800" 
                     };
                 }).filter(o => o !== null);
                 render(dataStore);
@@ -140,8 +145,12 @@
                 container.innerHTML += `<div class="city-divider"><i class="fas fa-plane airplane-icon"></i><h3>${city}</h3><div class="city-line"></div></div>`;
 
                 groups[city].forEach(item => {
+                    // Si la colonne H n'est pas vide, on crée le badge
+                    const statusHtml = item.places ? `<div class="status-badge">${item.places}</div>` : "";
+
                     container.innerHTML += `
                     <div class="card-flight">
+                        ${statusHtml}
                         <div class="img-container">
                             <img src="${item.image}" loading="lazy">
                             <div class="airline-tag">${item.airline}</div>

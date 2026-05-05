@@ -3,139 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PRESTA TOURS | Billet d'Avion & Voyages Organisés</title>
-    
-    <!-- External Assets -->
+    <title>PRESTA TOURS | Smart Travel 2026</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <style>
-        :root { 
-            --deep-blue: #0A1E3B; 
-            --gold-elegant: #C5A059; 
-            --bg-soft: #F8FAFC;
-            --whatsapp-green: #128C7E;
-            --turkish-red: #D92D20;
-        }
+        :root { --deep-blue: #0A1E3B; --gold: #C5A059; --red: #D92D20; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; padding-top: 180px; }
         
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-soft); color: var(--deep-blue); margin: 0; padding-top: 180px; }
+        /* Navigation */
+        .nav-presta { background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 15px 20px; border-bottom: 3px solid var(--gold); }
         
-        /* Navigation Styles */
-        .nav-presta { 
-            background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
-            padding: 15px 20px; border-bottom: 3px solid var(--gold-elegant); 
-            transition: transform 0.4s ease; box-shadow: 0 4px 25px rgba(0,0,0,0.15);
-        }
-        .nav-hidden { transform: translateY(-100%); }
-
-        /* Filter Buttons */
-        .filter-btn { 
-            flex-shrink: 0; padding: 10px 22px; border-radius: 12px; font-weight: 700; font-size: 11px; 
-            text-transform: uppercase; color: #E5D5B7; border: 1px solid rgba(197, 160, 89, 0.3); 
-            transition: 0.3s;
-        }
-        .filter-btn.active { background: var(--gold-elegant); color: white; border-color: var(--gold-elegant); box-shadow: 0 4px 12px rgba(197, 160, 89, 0.3); }
-
-        /* Card Styles */
-        .card-flight { background: white; border-radius: 30px; overflow: hidden; border: 1px solid #E5EBF1; transition: 0.4s; display: flex; flex-direction: column; position: relative; height: 100%; }
-        .card-flight:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(10, 30, 59, 0.1); }
+        /* Card & Images */
+        .card-flight { background: white; border-radius: 24px; overflow: hidden; border: 1px solid #E5EBF1; display: flex; flex-direction: column; transition: 0.3s; }
+        .img-container { height: 220px; position: relative; background: #eee; }
+        .img-container img { width: 100%; height: 100%; object-fit: cover; }
         
-        .img-container { height: 240px; position: relative; overflow: hidden; }
-        .img-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.5s ease; }
-        .card-flight:hover .img-container img { transform: scale(1.15); }
+        /* Badges */
+        .badge { position: absolute; top: 15px; right: 15px; padding: 6px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; color: white; z-index: 10; }
+        .badge-gold { background: var(--gold); }
+        .badge-red { background: var(--red); animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.05); } 100% { transform: scale(1); } }
+
+        /* Airline Logos */
+        .airline-logos { position: absolute; top: 15px; left: 15px; display: flex; gap: 5px; z-index: 10; }
+        .airline-logo { background: white; padding: 4px; border-radius: 6px; height: 30px; width: 30px; object-fit: contain; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
+        /* Buttons */
+        .btn-main { background: #128C7E; color: white; padding: 15px; border-radius: 15px; font-weight: 800; text-align: center; width: 100%; transition: 0.2s; }
+        .btn-details { background: white; border: 2px solid var(--gold); color: var(--deep-blue); padding: 12px; border-radius: 15px; font-weight: 700; width: 100%; margin-bottom: 10px; font-size: 13px; }
         
-        /* Dynamic Badges */
-        .status-badge {
-            position: absolute; top: 20px; right: 20px;
-            background: var(--gold-elegant); color: white;
-            padding: 6px 15px; border-radius: 10px;
-            font-size: 11px; font-weight: 800; text-transform: uppercase;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2); z-index: 10;
-        }
-        .status-badge.urgent {
-            background: var(--turkish-red) !important;
-            animation: pulse-red 2s infinite;
-        }
-        @keyframes pulse-red {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 45, 32, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 10px rgba(217, 45, 32, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(217, 45, 32, 0); }
-        }
+        /* Modal (Program View) */
+        #modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 2000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-content { background: white; border-radius: 25px; max-width: 500px; width: 100%; padding: 30px; position: relative; max-height: 80vh; overflow-y: auto; }
 
-        /* Typography & Layout */
-        .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 20px; margin: 50px 0 25px 0; }
-        .city-divider h3 { font-weight: 800; font-size: 18px; text-transform: uppercase; color: var(--deep-blue); letter-spacing: 1.5px; }
-        .airplane-icon { color: var(--gold-elegant); font-size: 20px; }
-        .city-line { height: 2px; background: linear-gradient(90deg, var(--gold-elegant), transparent); flex-grow: 1; }
-
-        .plan-box { 
-            background: #F8FAFC; border-radius: 20px; padding: 18px; 
-            font-size: 13px; font-weight: 600; color: #475569; 
-            margin: 20px 0; border: 1px dashed rgba(197, 160, 89, 0.4);
-        }
-        .plan-title { display: block; font-size: 10px; font-weight: 800; text-transform: uppercase; color: var(--gold-elegant); margin-bottom: 6px; }
-
-        .price-tag { color: var(--turkish-red); font-size: 32px; font-weight: 800; }
-        
-        /* Action Buttons */
-        .btn-whatsapp { background: var(--whatsapp-green); color: white; padding: 20px; border-radius: 20px; font-weight: 800; text-transform: uppercase; display: flex; align-items: center; justify-content: center; gap: 12px; width: 100%; margin-top: auto; transition: 0.3s; cursor: pointer; }
-        .btn-voyage { background: var(--deep-blue); border: 2px solid var(--gold-elegant); }
-        .btn-whatsapp:active { transform: scale(0.95); }
-
-        .airline-tag { position: absolute; top: 20px; left: 20px; background: white; padding: 7px 14px; border-radius: 12px; font-size: 10px; font-weight: 800; color: var(--deep-blue); border-left: 4px solid var(--gold-elegant); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        
-        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .city-divider { grid-column: 1 / -1; display: flex; align-items: center; gap: 15px; margin: 40px 0 20px 0; }
+        .city-divider h3 { font-weight: 800; font-size: 16px; color: var(--deep-blue); text-transform: uppercase; }
+        .city-line { height: 1px; background: #CBD5E1; flex-grow: 1; }
     </style>
 </head>
 <body>
 
-    <nav id="navbar" class="nav-presta">
-        <div class="max-w-7xl mx-auto flex flex-col gap-5">
-            <!-- Logo Area -->
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="w-14 h-14 border-2 border-[var(--gold-elegant)] rounded-2xl flex items-center justify-center text-[var(--gold-elegant)] font-bold text-3xl">P</div>
-                    <div>
-                        <h1 class="text-white font-extrabold text-2xl tracking-tighter leading-none uppercase">PRESTA TOURS</h1>
-                        <span class="text-[var(--gold-elegant)] font-bold text-[10px] uppercase tracking-[0.3em]">Voyages & Billetterie 2026</span>
-                    </div>
+    <!-- Modal for Program Details -->
+    <div id="modal" onclick="closeModal()">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button onclick="closeModal()" class="absolute top-5 right-5 text-gray-400"><i class="fas fa-times"></i></button>
+            <h2 id="modal-title" class="text-2xl font-black text-[var(--deep-blue)] mb-4"></h2>
+            <div id="modal-body" class="text-slate-600 leading-relaxed whitespace-pre-line"></div>
+            <button onclick="closeModal()" class="mt-8 w-full py-3 bg-slate-100 rounded-xl font-bold">Fermer</button>
+        </div>
+    </div>
+
+    <nav class="nav-presta">
+        <div class="max-w-7xl mx-auto">
+            <div class="flex items-center gap-4 mb-4">
+                <div class="w-12 h-12 border-2 border-[var(--gold)] rounded-xl flex items-center justify-center text-[var(--gold)] font-bold text-2xl">P</div>
+                <div>
+                    <h1 class="text-white font-black text-xl leading-none">PRESTA TOURS</h1>
+                    <span class="text-[var(--gold)] text-[10px] font-bold tracking-widest uppercase">Travel Catalog 2026</span>
                 </div>
-                <a href="tel:+213558332601" class="text-white bg-white/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/20"><i class="fas fa-phone mr-2"></i> CONTACT</a>
-            </div>
-            
-            <!-- Filter Bar -->
-            <div class="flex overflow-x-auto gap-3 pb-2 no-scrollbar">
-                <button onclick="applyFilter('all')" id="btn-all" class="filter-btn active">Toutes les Offres</button>
-                <button onclick="applyFilter('voyage')" id="btn-voyage" class="filter-btn">Voyages Organisés</button>
-                <button onclick="applyFilter('vol')" id="btn-vol" class="filter-btn">Vols Promotions</button>
             </div>
         </div>
     </nav>
 
-    <main class="max-w-7xl mx-auto px-6 pb-24">
-        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <!-- Data loads here -->
-        </div>
+    <main class="max-w-7xl mx-auto px-6 pb-20">
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
     <script>
-        // REPLACE WITH YOUR PUBLISHED CSV URL
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
-        
-        let dataStore = [];
-        let lastScroll = 0;
-
-        const airlines = { "tk": "Turkish Airlines", "ah": "Air Algérie", "qr": "Qatar Airways", "tu": "Tunisair" };
-
-        // Navbar Scroll Effect
-        window.addEventListener("scroll", () => {
-            const currentScroll = window.pageYOffset;
-            const nav = document.getElementById("navbar");
-            if (currentScroll > lastScroll && currentScroll > 150) nav.classList.add("nav-hidden");
-            else nav.classList.remove("nav-hidden");
-            lastScroll = currentScroll;
-        });
 
         async function init() {
             try {
@@ -144,110 +80,76 @@
                 const rows = text.split(/\r?\n/).filter(r => r.trim().length > 10);
                 const sep = rows[0].includes(';') ? ';' : ',';
 
-                dataStore = rows.slice(1).map((row) => {
+                const data = rows.slice(1).map(row => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
-                    if (!c[1]) return null;
-
-                    const status = (c[7] || "").toUpperCase();
-                    const airlineCode = (c[5] || "").toLowerCase();
-
-                    return {
-                        date: c[0], dest: c[1], prix: c[2], duree: c[3],
-                        bag: c[4], airline: airlines[airlineCode] || c[5],
-                        plan: c[6] || "Détails sur demande",
-                        status: status, 
-                        image: c[8] || "https://images.unsplash.com/photo-1436491865332-7a61a109cc05?w=800",
-                        isVoyage: status.includes("VOYAGE")
-                    };
-                }).filter(o => o !== null);
-                render(dataStore);
-            } catch (e) { console.error("Error loading data:", e); }
+                    return { date: c[0], dest: c[1], prix: c[2], duree: c[3], bag: c[4], airline: c[5], plan: c[6], status: c[7], img: c[8] };
+                });
+                render(data);
+            } catch (e) { console.error(e); }
         }
 
         function render(items) {
-            const container = document.getElementById('grid');
-            container.innerHTML = "";
+            const grid = document.getElementById('grid');
+            grid.innerHTML = "";
 
-            // Grouping logic: Organize by Voyage vs Flight
             const sections = items.reduce((acc, i) => {
-                let key = i.isVoyage ? "🌍 Nos Voyages Organisés" : "✈️ Promotions Vols Secs";
-                if (!acc[key]) acc[key] = [];
-                acc[key].push(i);
-                return acc;
+                let s = i.status.toUpperCase().includes("VOYAGE") ? "Voyages Organisés" : "Vols Secs";
+                if (!acc[s]) acc[s] = []; acc[s].push(i); return acc;
             }, {});
 
-            Object.keys(sections).forEach(title => {
-                container.innerHTML += `
-                    <div class="city-divider">
-                        <i class="fas fa-star-of-life airplane-icon"></i>
-                        <h3>${title}</h3>
-                        <div class="city-line"></div>
-                    </div>`;
+            for (const [title, list] of Object.entries(sections)) {
+                grid.innerHTML += `<div class="city-divider"><h3>${title}</h3><div class="city-line"></div></div>`;
+                list.forEach(item => {
+                    // 1. DYNAMIC DESTINATION IMAGE
+                    const destImage = item.img && item.img.length > 10 ? item.img.split(',')[0] : `https://source.unsplash.com/800x600/?${item.dest.split(' ')[0]},travel`;
 
-                sections[title].forEach(item => {
+                    // 2. AIRLINE LOGO LOGIC
+                    const airlineHtml = item.airline.split('/').map(code => 
+                        `<img class="airline-logo" src="https://img.logo.dev/https://${code.toLowerCase().trim()}.com?token=pk_example" onerror="this.src='https://ui-avatars.com/api/?name=${code}&background=random'">`
+                    ).join('');
+
                     const isUrgent = item.status.includes("FLASH") || item.status.includes("REST");
-                    const badgeClass = isUrgent ? "status-badge urgent" : "status-badge";
-                    
-                    // Multi-image support (takes the first one)
-                    const displayImg = item.image.split(',')[0].trim();
+                    const isVoyage = item.status.toUpperCase().includes("VOYAGE");
 
-                    container.innerHTML += `
+                    grid.innerHTML += `
                     <div class="card-flight">
-                        ${item.status ? `<div class="${badgeClass}">${item.status}</div>` : ""}
                         <div class="img-container">
-                            <img src="${displayImg}" alt="${item.dest}" loading="lazy">
-                            <div class="airline-tag">${item.airline}</div>
+                            <div class="airline-logos">${airlineHtml}</div>
+                            <div class="badge ${isUrgent ? 'badge-red' : 'badge-gold'}">${item.status}</div>
+                            <img src="${destImage}" alt="${item.dest}">
                         </div>
-                        
-                        <div class="p-8 flex flex-col flex-grow">
-                            <h2 class="text-2xl font-black text-[var(--deep-blue)] uppercase tracking-tighter mb-1">${item.dest}</h2>
-                            <p class="text-slate-500 font-bold text-xs mb-2 uppercase tracking-wide">
-                                <i class="far fa-calendar-alt mr-1"></i> ${item.date} ${item.duree ? ' — ' + item.duree : ''}
-                            </p>
+                        <div class="p-6 flex flex-col flex-grow">
+                            <h2 class="text-xl font-black text-[var(--deep-blue)] uppercase mb-1">${item.dest}</h2>
+                            <p class="text-slate-400 font-bold text-[10px] mb-4">${item.date} • ${item.duree}</p>
                             
-                            <div class="plan-box">
-                                <span class="plan-title">${item.isVoyage ? 'POINTS FORTS DU SÉJOUR' : 'DÉTAILS DU VOL'}</span>
-                                ${item.plan}
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <span class="block text-[9px] text-slate-400 font-bold">PRIX</span>
+                                    <span class="text-2xl font-black text-[var(--red)]">${item.prix} DA</span>
+                                </div>
+                                <div class="bg-slate-100 px-3 py-1 rounded-lg text-[10px] font-bold">${item.bag}</div>
                             </div>
 
-                            <div class="flex justify-between items-end mb-8">
-                                <div>
-                                    <span class="text-[10px] font-bold text-slate-400 uppercase block mb-1">Tarif Promo</span>
-                                    <span class="price-tag">${item.prix} <small class="text-sm">DA</small></span>
-                                </div>
-                                <div class="text-[11px] font-black text-slate-600 bg-slate-100 px-3 py-1 rounded-lg">
-                                    ${item.isVoyage ? 'PACK COMPLET' : item.bag}
-                                </div>
-                            </div>
+                            ${isVoyage ? `<button onclick="openModal('${item.dest}', '${item.plan.replace(/'/g, "\\'")}')" class="btn-details">VOIR LE PROGRAMME</button>` : ''}
                             
-                            <button onclick="sendWhatsApp('${item.dest}', '${item.prix}', '${item.date}')" 
-                                    class="btn-whatsapp ${item.isVoyage ? 'btn-voyage' : ''}">
-                                ${item.isVoyage ? 'RÉSERVER MON SÉJOUR' : 'RÉSERVER CE VOL'}
-                                <i class="fab fa-whatsapp text-2xl"></i>
-                            </button>
+                            <button onclick="sendWA('${item.dest}', '${item.prix}')" class="btn-main">RÉSERVER <i class="fab fa-whatsapp ml-2"></i></button>
                         </div>
                     </div>`;
                 });
-            });
-        }
-
-        function applyFilter(type) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            if(type === 'all') {
-                document.getElementById('btn-all').classList.add('active');
-                render(dataStore);
-            } else if(type === 'voyage') {
-                document.getElementById('btn-voyage').classList.add('active');
-                render(dataStore.filter(i => i.isVoyage));
-            } else {
-                document.getElementById('btn-vol').classList.add('active');
-                render(dataStore.filter(i => !i.isVoyage));
             }
         }
 
-        function sendWhatsApp(dest, prix, date) {
-            const msg = encodeURIComponent(`Bonjour PRESTA TOURS, je souhaite avoir plus d'informations sur l'offre ${dest} du ${date} au prix de ${prix} DA.`);
-            window.open(`https://wa.me/213558332601?text=${msg}`, '_blank');
+        function openModal(title, text) {
+            document.getElementById('modal-title').innerText = title;
+            document.getElementById('modal-body').innerText = text;
+            document.getElementById('modal').style.display = 'flex';
+        }
+
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+
+        function sendWA(dest, prix) {
+            const msg = encodeURIComponent(`Bonjour PRESTA TOURS, je souhaite réserver : ${dest} (${prix} DA).`);
+            window.open(`https://wa.me/213558332601?text=${msg}`);
         }
 
         init();

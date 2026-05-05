@@ -11,58 +11,29 @@
 
     <style>
         :root { --deep-blue: #0A1E3B; --gold: #C5A059; --turkish-red: #E31C1C; --whatsapp: #25D366; }
-        
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: var(--deep-blue); margin: 0; padding-top: 160px; }
-        
-        .nav-presta { 
-            background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
-            padding: 10px 0; border-bottom: 2px solid var(--gold);
-            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 4px 25px rgba(0,0,0,0.25);
-        }
+        .nav-presta { background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 10px 0; border-bottom: 2px solid var(--gold); transition: transform 0.4s; box-shadow: 0 4px 25px rgba(0,0,0,0.25); }
         .nav-hidden { transform: translateY(-100%); }
-
         .logo-area { display: flex; align-items: center; justify-content: space-between; padding: 5px 20px 10px 20px; }
-
         .filter-container { display: flex; gap: 8px; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; }
         .filter-container::-webkit-scrollbar { display: none; }
         .filter-btn { background: rgba(255,255,255,0.08); color: white; padding: 8px 18px; border-radius: 12px; font-weight: 700; font-size: 10px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.15); white-space: nowrap; transition: 0.3s; }
-        .filter-btn.active { background: var(--gold); color: white; border-color: var(--gold); box-shadow: 0 4px 12px rgba(197, 160, 89, 0.4); }
-
+        .filter-btn.active { background: var(--gold); color: white; border-color: var(--gold); }
         .btn-voyage-filter.active { background: #7C3AED !important; border-color: #7C3AED !important; }
-
-        /* Correction 02 : Zoom effect on all cards */
-        .card-flight { 
-            background: white; border-radius: 28px; overflow: hidden; 
-            box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; 
-            height: 100%; transition: transform 0.4s ease, box-shadow 0.4s ease; border: 1px solid #F1F5F9; 
-        }
-        .card-flight:hover { transform: scale(1.03); box-shadow: 0 20px 40px rgba(0,0,0,0.1); }
+        .card-flight { background: white; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; height: 100%; transition: transform 0.4s ease; border: 1px solid #F1F5F9; }
+        .card-flight:hover { transform: scale(1.03); }
         .card-voyage { border: 2px solid #7C3AED; }
-        
         .img-container { height: 230px; position: relative; overflow: hidden; background: #E2E8F0; }
         .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.6s ease-in-out; }
-        .slider-wrapper img { min-width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; }
-
+        .slider-wrapper img { min-width: 100%; height: 100%; object-fit: cover; }
         .status-badge { position: absolute; top: 15px; right: 15px; background: var(--turkish-red); color: white; padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; z-index: 20; }
-        
-        /* Correction 04 : Multiple Airline Logos Elegant */
         .airline-container { position: absolute; top: 15px; left: 15px; z-index: 20; display: flex; gap: 5px; }
-        .airline-logo { 
-            background: rgba(255,255,255,0.9); padding: 4px; border-radius: 8px; 
-            height: 28px; box-shadow: 0 2px 8px rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,1);
-        }
-
+        .airline-logo { background: rgba(255,255,255,0.9); padding: 4px; border-radius: 8px; height: 28px; border: 1px solid white; }
         .price-tag { color: var(--turkish-red); font-size: 26px; font-weight: 900; }
-
+        /* Style pour le texte de départ */
+        .departure-label { font-size: 11px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
         .btn-details { border: 2px solid var(--gold); color: var(--deep-blue); padding: 10px; border-radius: 12px; font-weight: 800; width: 100%; margin-bottom: 12px; text-transform: uppercase; font-size: 10px; }
         .btn-wa { background: var(--whatsapp); color: white; padding: 12px; border-radius: 12px; font-weight: 800; flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11px; }
-
-        /* Correction 03 : Real social colors on touch/hover */
-        .fa-facebook:hover { color: #1877F2 !important; }
-        .fa-instagram:hover { color: #E4405F !important; }
-        .fa-tiktok:hover { color: #000000 !important; }
-
         #detailsModal { display: none; position: fixed; inset: 0; background: rgba(10,30,59,0.9); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
         .modal-content { background: white; border-radius: 30px; width: 100%; max-width: 500px; padding: 30px; max-height: 80vh; overflow-y: auto; }
     </style>
@@ -79,7 +50,6 @@
                 <i class="fa fa-phone mr-2"></i>Appel
             </a>
         </div>
-        
         <div class="filter-container max-w-7xl mx-auto">
             <button class="filter-btn active" onclick="filterBy('all', this)">Tous</button>
             <button class="filter-btn" onclick="filterBy('4 Jours', this)">4 Jours</button>
@@ -104,9 +74,9 @@
     <footer class="bg-[var(--deep-blue)] text-white py-16 text-center">
         <p class="font-black text-xl mb-2">PRESTA TOURS VOYAGES</p>
         <div class="flex justify-center gap-8 my-8">
-            <a href="https://www.facebook.com/prestatour/" target="_blank" class="text-2xl text-slate-500 transition-colors"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.instagram.com/presta_tours_/" target="_blank" class="text-2xl text-slate-500 transition-colors"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@prestatours" target="_blank" class="text-2xl text-slate-500 transition-colors"><i class="fab fa-tiktok"></i></a>
+            <a href="https://www.facebook.com/prestatour/" target="_blank" class="text-2xl text-slate-500 hover:text-[#1877F2] transition-colors"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/presta_tours_/" target="_blank" class="text-2xl text-slate-500 hover:text-[#E4405F] transition-colors"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@prestatours" target="_blank" class="text-2xl text-slate-500 hover:text-black transition-colors"><i class="fab fa-tiktok"></i></a>
         </div>
         <p class="text-[9px] uppercase tracking-widest text-slate-500">© 2026 Kourifa Rachid 16302 El Harrach, Alger</p>
     </footer>
@@ -121,7 +91,6 @@
                 const text = await res.text();
                 const rows = text.split(/\r?\n/).filter(r => r.trim().split(/[;,]/).length > 6);
                 const sep = rows[0].includes(';') ? ';' : ',';
-
                 masterData = rows.slice(1).map(row => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
                     return { date: c[0], dest: c[1], prix: c[2], duree: c[3], bag: c[4], airline: c[5], plan: c[6], status: c[7], img: c[8] };
@@ -143,70 +112,60 @@
             grid.innerHTML = "";
             items.forEach((item, idx) => {
                 const isVoyage = item.status.toUpperCase().includes("VOYAGE");
+                
+                // Correction : Extraction dynamique du départ (ex: "Alger → Istanbul" devient "Alger")
+                const departureCity = item.dest.split('→')[0].trim();
 
-                // Correction 01 & 05 : Slides only for Voyage Organisé + Contextual Unsplash images
                 let imgSource = [];
-                const destSearch = item.dest.split('→').pop().trim().replace(' ', '+');
-
                 if (item.img && item.img.includes('http')) {
                     imgSource = item.img.split(',').map(u => u.trim());
                 } else if (isVoyage) {
-                    // Logic for 3 slides based on Column B (Destination)
                     imgSource = [
-                        `https://source.unsplash.com/800x600/?${destSearch},tourism,1`,
-                        `https://source.unsplash.com/800x600/?${destSearch},landscape,2`,
-                        `https://source.unsplash.com/800x600/?${destSearch},city,3`
+                        `https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800&auto=format&fit=crop&sig=1${idx}`,
+                        `https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop&sig=2${idx}`,
+                        `https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=800&auto=format&fit=crop&sig=3${idx}`
                     ];
                 } else {
-                    // Correction 01 : Single image for billets (No slides)
-                    imgSource = [`https://source.unsplash.com/800x600/?${destSearch},airport`];
+                    imgSource = [`https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?q=80&w=800&auto=format&fit=crop`];
                 }
 
                 let imgHtml = `<div class="slider-wrapper" id="slider-${idx}">`;
                 imgSource.forEach(url => { imgHtml += `<img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?w=800'">`; });
                 imgHtml += `</div>`;
 
-                // Correction 04 : Split multiple airline codes (e.g., TK/ET)
                 let airlineHtml = '';
                 if(item.airline) {
                     const codes = item.airline.split(/[/,]/).map(s => s.trim());
                     airlineHtml = '<div class="airline-container">';
-                    codes.forEach(code => {
-                        airlineHtml += `<img src="https://daisycon.io/images/airline/?width=80&height=40&color=ffffff&iata=${code}" class="airline-logo">`;
-                    });
+                    codes.forEach(code => { airlineHtml += `<img src="https://daisycon.io/images/airline/?width=80&height=40&color=ffffff&iata=${code}" class="airline-logo">`; });
                     airlineHtml += '</div>';
                 }
 
                 grid.innerHTML += `
                 <div class="card-flight ${isVoyage ? 'card-voyage' : ''}">
-                    <div class="img-container">
-                        ${airlineHtml}
-                        <div class="status-badge">${item.status}</div>
-                        ${imgHtml}
-                    </div>
+                    <div class="img-container">${airlineHtml}<div class="status-badge">${item.status}</div>${imgHtml}</div>
                     <div class="p-6 flex flex-col flex-grow">
+                        <!-- Correction : Affichage du Départ (Alger/Oran/Constantine) -->
+                        ${!isVoyage ? `<div class="departure-label"><i class="fa fa-plane-departure"></i> Départ ${departureCity}</div>` : ''}
+                        
                         <h2 class="text-xl font-black uppercase mb-1 tracking-tighter">${item.dest}</h2>
                         <p class="text-slate-400 text-[10px] font-bold mb-4 uppercase">${item.date} • ${item.duree}</p>
                         <div class="price-tag mb-6">${item.prix} <span class="text-sm font-bold">DA</span></div>
                         <div class="mt-auto">
                             ${(isVoyage || item.plan.length > 5) ? `<button onclick="openDetails('${item.dest}', '${item.plan.replace(/'/g, "\\'")}')" class="btn-details">Détails Programme</button>` : ''}
                             <div class="flex gap-2">
-                                <a href="tel:0558332601" class="p-4 border-2 border-slate-100 rounded-xl text-slate-400 hover:text-[var(--deep-blue)] hover:border-[var(--deep-blue)] transition-all"><i class="fa fa-phone"></i></a>
+                                <a href="tel:0558332601" class="p-4 border-2 border-slate-100 rounded-xl text-slate-400 hover:text-[var(--deep-blue)] transition-all"><i class="fa fa-phone"></i></a>
                                 <button onclick="sendWA('${item.dest}', '${item.prix}')" class="btn-wa"><i class="fab fa-whatsapp"></i> RÉSERVER</button>
                             </div>
                         </div>
                     </div>
                 </div>`;
 
-                // Correction 01 : Start interval ONLY for Voyage Organise
                 if (isVoyage && imgSource.length > 1) {
                     let count = 0;
                     setInterval(() => {
                         const slider = document.getElementById(`slider-${idx}`);
-                        if (slider) { 
-                            count = (count + 1) % imgSource.length; 
-                            slider.style.transform = `translateX(-${count * 100}%)`; 
-                        }
+                        if (slider) { count = (count + 1) % imgSource.length; slider.style.transform = `translateX(-${count * 100}%)`; }
                     }, 4000);
                 }
             });

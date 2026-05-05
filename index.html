@@ -12,10 +12,8 @@
     <style>
         :root { --deep-blue: #0A1E3B; --gold: #C5A059; --turkish-red: #E31C1C; --whatsapp: #25D366; }
         
-        /* Ajustement du padding-top car le header est plus grand maintenant */
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: var(--deep-blue); margin: 0; padding-top: 160px; }
         
-        /* NAVIGATION ET FILTRES GROUPÉS */
         .nav-presta { 
             background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
             padding: 10px 0; border-bottom: 2px solid var(--gold);
@@ -26,22 +24,27 @@
 
         .logo-area { display: flex; align-items: center; justify-content: space-between; padding: 5px 20px 10px 20px; }
 
-        /* FILTRES DANS LE HEADER */
         .filter-container { display: flex; gap: 8px; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; }
         .filter-container::-webkit-scrollbar { display: none; }
         .filter-btn { background: rgba(255,255,255,0.08); color: white; padding: 8px 18px; border-radius: 12px; font-weight: 700; font-size: 10px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.15); white-space: nowrap; transition: 0.3s; }
         .filter-btn.active { background: var(--gold); color: white; border-color: var(--gold); box-shadow: 0 4px 12px rgba(197, 160, 89, 0.4); }
 
-        /* CARD EFFECTS */
+        /* Point 4: Couleur différente pour le bouton Voyage Organisé dans les filtres */
+        .btn-voyage-filter.active { background: #7C3AED !important; border-color: #7C3AED !important; }
+
         .card-flight { background: white; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; height: 100%; transition: 0.4s ease; border: 1px solid #F1F5F9; }
-        .card-flight:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(10,30,59,0.12); }
+        /* Point 4: Bordure différente pour les cartes Voyage Organisé */
+        .card-voyage { border: 2px solid #7C3AED; }
         
         .img-container { height: 230px; position: relative; overflow: hidden; background: #E2E8F0; }
         .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.6s ease-in-out; }
         .slider-wrapper img { min-width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; }
-        .card-flight:hover .slider-wrapper img { transform: scale(1.1); }
 
         .status-badge { position: absolute; top: 15px; right: 15px; background: var(--turkish-red); color: white; padding: 5px 12px; border-radius: 8px; font-size: 10px; font-weight: 800; z-index: 20; }
+        
+        /* Point 1: Logo IATA / Airline */
+        .airline-logo { position: absolute; top: 15px; left: 15px; background: white; padding: 4px; border-radius: 6px; height: 30px; z-index: 20; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+
         .price-tag { color: var(--turkish-red); font-size: 26px; font-weight: 900; }
 
         .btn-details { border: 2px solid var(--gold); color: var(--deep-blue); padding: 10px; border-radius: 12px; font-weight: 800; width: 100%; margin-bottom: 12px; text-transform: uppercase; font-size: 10px; }
@@ -54,22 +57,23 @@
 <body>
 
     <nav class="nav-presta" id="navbar">
-        <!-- Logo Area -->
         <div class="logo-area max-w-7xl mx-auto">
             <div class="flex items-center gap-3">
                 <div class="w-9 h-9 bg-[var(--gold)] rounded-lg flex items-center justify-center text-white font-black text-lg">P</div>
                 <span class="text-white font-black text-lg tracking-tighter uppercase">PRESTA TOURS</span>
             </div>
-            <a href="tel:0558332601" class="text-white bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold border border-white/20 uppercase tracking-widest">Appel</a>
+            <!-- Point 2: Ajout icône téléphone dans le bouton appel -->
+            <a href="tel:0558332601" class="text-white bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold border border-white/20 uppercase tracking-widest">
+                <i class="fa fa-phone mr-2"></i>Appel
+            </a>
         </div>
         
-        <!-- Filtres Area (Intégrés au Header pour disparaître ensemble) -->
         <div class="filter-container max-w-7xl mx-auto">
             <button class="filter-btn active" onclick="filterBy('all', this)">Tous</button>
             <button class="filter-btn" onclick="filterBy('4 Jours', this)">4 Jours</button>
             <button class="filter-btn" onclick="filterBy('7 Jours', this)">7 Jours</button>
             <button class="filter-btn" onclick="filterBy('8 Jours', this)">8 Jours</button>
-            <button class="filter-btn" onclick="filterBy('VOYAGE', this)">Voyages Organisés</button>
+            <button class="filter-btn btn-voyage-filter" onclick="filterBy('VOYAGE', this)">Voyages Organisés</button>
         </div>
     </nav>
 
@@ -77,7 +81,6 @@
         <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
     </main>
 
-    <!-- Modal Programme -->
     <div id="detailsModal" onclick="this.style.display='none'">
         <div class="modal-content" onclick="event.stopPropagation()">
             <h2 id="modalTitle" class="text-2xl font-black mb-4 uppercase text-[var(--deep-blue)]"></h2>
@@ -100,7 +103,6 @@
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
         let masterData = [];
 
-        // SCROLL DYNAMIQUE (Header + Filtres disparaissent ensemble)
         let lastScroll = 0;
         window.addEventListener("scroll", () => {
             const currentScroll = window.pageYOffset;
@@ -125,12 +127,19 @@
             } catch (e) { console.error(e); }
         }
 
+        // Point 5: Correction du filtrage pour ne pas mélanger les billets (4j/7j) et les Voyages Organisés
         function filterBy(criteria, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            if(criteria === 'all') render(masterData);
-            else if(criteria === 'VOYAGE') render(masterData.filter(i => i.status.toUpperCase().includes('VOYAGE')));
-            else render(masterData.filter(i => i.duree.includes(criteria)));
+            
+            if(criteria === 'all') {
+                render(masterData);
+            } else if(criteria === 'VOYAGE') {
+                render(masterData.filter(i => i.status.toUpperCase().includes('VOYAGE')));
+            } else {
+                // Filtre strictement par durée ET exclut les voyages organisés
+                render(masterData.filter(i => i.duree.includes(criteria) && !i.status.toUpperCase().includes('VOYAGE')));
+            }
         }
 
         function render(items) {
@@ -138,17 +147,33 @@
             grid.innerHTML = "";
             items.forEach((item, idx) => {
                 const isVoyage = item.status.toUpperCase().includes("VOYAGE");
-                let imgSource = (item.img && item.img.includes('http')) 
-                    ? item.img.split(',').map(u => u.trim()) 
-                    : [`https://images.unsplash.com/photo-1512100356956-c1226c9965a8?w=800&sig=${idx}`];
+                const cityName = item.dest.split('→').pop().trim();
+
+                // Point 3: 2-3 images SLIDE uniquement pour VOYAGE ORGANISEE
+                let imgSource = [];
+                if (item.img && item.img.includes('http')) {
+                    imgSource = item.img.split(',').map(u => u.trim());
+                } else if (isVoyage) {
+                    imgSource = [
+                        `https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&sig=${idx}1`,
+                        `https://images.unsplash.com/photo-1476514525535-07fb3b4ae5f1?w=800&sig=${idx}2`,
+                        `https://images.unsplash.com/photo-1512100356956-c1226c9965a8?w=800&sig=${idx}3`
+                    ];
+                } else {
+                    imgSource = [`https://images.unsplash.com/photo-1512100356956-c1226c9965a8?w=800&sig=${idx}`];
+                }
 
                 let imgHtml = `<div class="slider-wrapper" id="slider-${idx}">`;
                 imgSource.forEach(url => { imgHtml += `<img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?w=800'">`; });
                 imgHtml += `</div>`;
 
+                // Point 1: Logo IATA (basé sur le code airline dans ton Excel)
+                const iataLogo = item.airline ? `<img src="https://daisycon.io/images/airline/?width=100&height=50&color=ffffff&iata=${item.airline}" class="airline-logo" alt="logo">` : '';
+
                 grid.innerHTML += `
-                <div class="card-flight">
+                <div class="card-flight ${isVoyage ? 'card-voyage' : ''}">
                     <div class="img-container">
+                        ${iataLogo}
                         <div class="status-badge">${item.status}</div>
                         ${imgHtml}
                     </div>
@@ -165,6 +190,18 @@
                         </div>
                     </div>
                 </div>`;
+
+                // Animation slider (uniquement si plusieurs images)
+                if (imgSource.length > 1) {
+                    let count = 0;
+                    setInterval(() => {
+                        const slider = document.getElementById(`slider-${idx}`);
+                        if (slider) { 
+                            count = (count + 1) % imgSource.length; 
+                            slider.style.transform = `translateX(-${count * 100}%)`; 
+                        }
+                    }, 4000);
+                }
             });
         }
 

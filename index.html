@@ -3,59 +3,54 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PRESTA TOURS | Expert Voyages</title>
+    <title>PRESTA TOURS | Destination Rêve</title>
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <style>
-        :root { 
-            --deep-blue: #0A1E3B; 
-            --gold: #C5A059; 
-            --turkish-red: #E31C1C;
-            --whatsapp: #25D366;
-        }
+        :root { --deep-blue: #0A1E3B; --gold: #C5A059; --turkish-red: #E31C1C; --whatsapp: #25D366; }
         
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: var(--deep-blue); margin: 0; padding-top: 80px; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: var(--deep-blue); margin: 0; padding-top: 140px; }
         
-        /* Navigation */
+        /* HEADER AVEC EFFET SCROLL */
         .nav-presta { 
-            background: rgba(10, 30, 59, 0.98); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
-            padding: 12px 20px; border-bottom: 2px solid var(--gold); backdrop-filter: blur(10px);
-            transition: transform 0.3s ease;
+            background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; 
+            padding: 15px 20px; border-bottom: 2px solid var(--gold);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
         }
         .nav-hidden { transform: translateY(-100%); }
 
-        /* Search & Filters */
-        .search-area { background: var(--deep-blue); padding: 60px 20px; border-radius: 0 0 40px 40px; text-align: center; color: white; }
-        .search-input { width: 100%; max-width: 600px; padding: 18px 25px; border-radius: 15px; border: none; font-weight: 600; color: var(--deep-blue); margin-top: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.2); }
+        /* FILTRES RAPIDES */
+        .filter-wrapper { position: sticky; top: 80px; z-index: 900; background: #F8FAFC; padding: 15px 0; }
+        .filter-container { display: flex; gap: 10px; overflow-x: auto; padding: 5px 20px; scrollbar-width: none; }
+        .filter-btn { background: white; padding: 10px 22px; border-radius: 14px; font-weight: 800; font-size: 11px; text-transform: uppercase; border: 2px solid #E2E8F0; white-space: nowrap; transition: 0.3s; }
+        .filter-btn.active { background: var(--gold); color: white; border-color: var(--gold); box-shadow: 0 5px 15px rgba(197, 160, 89, 0.3); }
 
-        /* Cards */
-        .card-flight { 
-            background: white; border-radius: 24px; overflow: hidden; 
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05); transition: 0.3s;
-            display: flex; flex-direction: column; height: 100%; position: relative;
-        }
-        .card-flight:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.1); }
+        /* CARD AVEC EFFET ZOOM */
+        .card-flight { background: white; border-radius: 28px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); display: flex; flex-direction: column; height: 100%; transition: 0.4s ease; border: 1px solid #F1F5F9; }
+        .card-flight:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(10,30,59,0.12); }
         
-        .img-container { height: 250px; position: relative; overflow: hidden; background: #eee; }
-        .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.5s ease-in-out; }
-        .slider-wrapper img { min-width: 100%; height: 100%; object-fit: cover; }
+        .img-container { height: 240px; position: relative; overflow: hidden; background: #E2E8F0; }
+        .slider-wrapper { display: flex; width: 100%; height: 100%; transition: transform 0.6s ease-in-out; }
+        .slider-wrapper img { min-width: 100%; height: 100%; object-fit: cover; transition: 0.8s ease; }
+        
+        /* ZOOM EFFECT SUR L'IMAGE AU SURVOL */
+        .card-flight:hover .slider-wrapper img { transform: scale(1.1); }
 
-        .status-badge { position: absolute; top: 15px; right: 15px; background: var(--turkish-red); color: white; padding: 6px 12px; border-radius: 8px; font-size: 11px; font-weight: 800; z-index: 20; }
-        .price-tag { color: var(--turkish-red); font-size: 26px; font-weight: 900; }
+        .status-badge { position: absolute; top: 15px; right: 15px; background: var(--turkish-red); color: white; padding: 6px 14px; border-radius: 10px; font-size: 10px; font-weight: 800; z-index: 20; text-transform: uppercase; }
+        .price-tag { color: var(--turkish-red); font-size: 26px; font-weight: 900; letter-spacing: -1px; }
 
-        /* Modal */
-        #detailsModal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(5px); }
-        .modal-content { background: white; border-radius: 30px; width: 100%; max-width: 500px; padding: 35px; max-height: 80vh; overflow-y: auto; }
+        .btn-details { border: 2px solid var(--gold); color: var(--deep-blue); padding: 12px; border-radius: 14px; font-weight: 800; width: 100%; margin-bottom: 12px; text-transform: uppercase; font-size: 10px; transition: 0.3s; }
+        .btn-details:hover { background: var(--gold); color: white; }
+        
+        .btn-wa { background: var(--whatsapp); color: white; padding: 14px; border-radius: 14px; font-weight: 800; flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 12px; transition: 0.3s; }
+        .btn-wa:hover { filter: brightness(1.1); }
 
-        /* Buttons */
-        .btn-main { background: var(--whatsapp); color: white; padding: 14px; border-radius: 15px; font-weight: 800; display: flex; align-items: center; justify-content: center; gap: 10px; flex-grow: 1; }
-        .btn-outline { border: 2px solid var(--gold); color: var(--deep-blue); padding: 12px; border-radius: 15px; font-weight: 700; width: 100%; margin-bottom: 10px; }
-
-        .city-divider { grid-column: 1 / -1; margin: 30px 0 10px; font-size: 20px; font-weight: 800; color: var(--deep-blue); display: flex; align-items: center; gap: 15px; }
-        .city-divider::after { content: ""; height: 2px; flex-grow: 1; background: linear-gradient(90deg, var(--gold), transparent); }
+        #detailsModal { display: none; position: fixed; inset: 0; background: rgba(10,30,59,0.85); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
+        .modal-content { background: white; border-radius: 30px; width: 100%; max-width: 500px; padding: 35px; max-height: 85vh; overflow-y: auto; box-shadow: 0 25px 50px rgba(0,0,0,0.3); }
     </style>
 </head>
 <body>
@@ -63,46 +58,57 @@
     <nav class="nav-presta" id="navbar">
         <div class="max-w-7xl mx-auto flex items-center justify-between">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 bg-[var(--gold)] rounded-lg flex items-center justify-center text-white font-black text-xl">P</div>
-                <span class="text-white font-black text-lg tracking-tighter uppercase">Presta Tours</span>
+                <div class="w-10 h-10 bg-[var(--gold)] rounded-xl flex items-center justify-center text-white font-black text-xl">P</div>
+                <span class="text-white font-black text-xl tracking-tighter">PRESTA TOURS</span>
             </div>
-            <a href="tel:0558332601" class="text-white bg-white/10 px-4 py-2 rounded-xl text-xs font-bold border border-white/20"><i class="fa fa-phone mr-2"></i> Appeler</a>
+            <a href="tel:0558332601" class="text-white bg-white/10 px-5 py-2 rounded-xl text-xs font-bold border border-white/20 uppercase tracking-widest"><i class="fa fa-phone mr-2"></i> Appel</a>
         </div>
     </nav>
 
-    <div class="search-area">
-        <h1 class="text-3xl md:text-4xl font-black uppercase tracking-tighter">Trouvez votre prochain voyage</h1>
-        <input type="text" id="searchInput" class="search-input" placeholder="Chercher une destination (ex: Istanbul, Bali...)" onkeyup="search()">
-    </div>
-
-    <main class="max-w-7xl mx-auto px-6 py-10">
-        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
-    </main>
-
-    <!-- Modal Détails -->
-    <div id="detailsModal" onclick="closeDetails()">
-        <div class="modal-content" onclick="event.stopPropagation()">
-            <h2 id="modalTitle" class="text-2xl font-black mb-4 uppercase"></h2>
-            <div id="modalBody" class="text-slate-600"></div>
-            <button onclick="closeDetails()" class="mt-8 w-full py-4 bg-slate-900 text-white rounded-2xl font-bold uppercase">Fermer</button>
+    <div class="filter-wrapper">
+        <div class="filter-container max-w-7xl mx-auto">
+            <button class="filter-btn active" onclick="filterBy('all', this)">Tous</button>
+            <button class="filter-btn" onclick="filterBy('4 Jours', this)">4 Jours</button>
+            <button class="filter-btn" onclick="filterBy('7 Jours', this)">7 Jours</button>
+            <button class="filter-btn" onclick="filterBy('8 Jours', this)">8 Jours</button>
+            <button class="filter-btn" onclick="filterBy('VOYAGE', this)">Voyages Organisés</button>
         </div>
     </div>
 
-    <footer class="bg-[#0A1E3B] text-white py-12 text-center">
-        <p class="font-bold text-lg">PRESTA TOURS VOYAGES</p>
-        <p class="text-slate-400 text-sm mt-2">Kourifa Rachid 16302 El Harrach, Alger</p>
+    <main class="max-w-7xl mx-auto px-6 pb-20">
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10"></div>
+    </main>
+
+    <div id="detailsModal" onclick="this.style.display='none'">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <h2 id="modalTitle" class="text-2xl font-black mb-6 uppercase text-[var(--deep-blue)]"></h2>
+            <div id="modalBody" class="text-slate-600 text-sm leading-relaxed whitespace-pre-line"></div>
+            <button onclick="document.getElementById('detailsModal').style.display='none'" class="mt-8 w-full py-4 bg-[var(--deep-blue)] text-white rounded-2xl font-bold uppercase tracking-wider">Fermer</button>
+        </div>
+    </div>
+
+    <footer class="bg-[var(--deep-blue)] text-white py-16 px-6 text-center">
+        <p class="font-black text-2xl mb-2 tracking-tighter">PRESTA TOURS VOYAGES</p>
+        <p class="text-slate-400 text-sm mb-8">Kourifa Rachid 16302 El Harrach, Alger</p>
+        
+        <div class="flex justify-center gap-10 my-10">
+            <a href="https://www.facebook.com/prestatour/" target="_blank" class="text-3xl text-slate-500 hover:text-[#1877F2] transition-colors"><i class="fab fa-facebook"></i></a>
+            <a href="https://www.instagram.com/presta_tours_/" target="_blank" class="text-3xl text-slate-500 hover:text-[#E4405F] transition-colors"><i class="fab fa-instagram"></i></a>
+            <a href="https://www.tiktok.com/@prestatours" target="_blank" class="text-3xl text-slate-500 hover:text-white transition-colors"><i class="fab fa-tiktok"></i></a>
+        </div>
+        <p class="text-[10px] uppercase tracking-[0.4em] text-slate-500 font-bold">© 2026 Powered by Velora Travel Tech</p>
     </footer>
 
     <script>
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
         let masterData = [];
 
-        // Scroll Logic
+        // SMART HEADER SCROLL LOGIC
         let lastScroll = 0;
         window.addEventListener("scroll", () => {
             const currentScroll = window.pageYOffset;
             const nav = document.getElementById("navbar");
-            if (currentScroll > lastScroll && currentScroll > 100) nav.classList.add("nav-hidden");
+            if (currentScroll > lastScroll && currentScroll > 150) nav.classList.add("nav-hidden");
             else nav.classList.remove("nav-hidden");
             lastScroll = currentScroll;
         });
@@ -120,100 +126,81 @@
                 }).filter(i => i.dest && i.prix);
                 
                 render(masterData);
-            } catch (e) { console.error(e); }
+            } catch (e) { console.error("Erreur de chargement des données", e); }
         }
 
-        function search() {
-            const val = document.getElementById('searchInput').value.toLowerCase();
-            render(masterData.filter(i => i.dest.toLowerCase().includes(val)));
+        function filterBy(criteria, btn) {
+            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            if(criteria === 'all') render(masterData);
+            else if(criteria === 'VOYAGE') render(masterData.filter(i => i.status.toUpperCase().includes('VOYAGE')));
+            else render(masterData.filter(i => i.duree.includes(criteria)));
         }
 
         function render(items) {
             const grid = document.getElementById('grid');
             grid.innerHTML = "";
-            
-            const sections = items.reduce((acc, i) => {
-                let s = i.status.toUpperCase().includes("VOYAGE") ? "Voyages Organisés" : "Promotions Vols Secs";
-                if (!acc[s]) acc[s] = []; acc[s].push(i); return acc;
-            }, {});
+            items.forEach((item, idx) => {
+                const isVoyage = item.status.toUpperCase().includes("VOYAGE");
+                const city = item.dest.split('→').pop().trim();
+                
+                // GESTION DES IMAGES (Lien Sheet ou Unsplash si vide)
+                let imgSource = (item.img && item.img.includes('http')) 
+                    ? item.img.split(',').map(u => u.trim()) 
+                    : [`https://images.unsplash.com/photo-1512100356956-c1226c9965a8?w=800&q=80&sig=${idx}`, `https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=800&q=80&sig=${idx+10}`];
 
-            for (const [title, list] of Object.entries(sections)) {
-                grid.innerHTML += `<div class="city-divider">${title}</div>`;
-                list.forEach((item, idx) => {
-                    const isVoyage = item.status.toUpperCase().includes("VOYAGE");
-                    
-                    // FIX IMAGE: Nettoyage des liens et images auto si vide
-                    let rawImgs = item.img || "";
-                    let imgSource = (rawImgs.includes('http')) 
-                        ? rawImgs.split(',').map(u => u.trim()) 
-                        : [`https://source.unsplash.com/800x600/?${item.dest.split('→').pop().trim()},travel`];
+                let imgHtml = `<div class="slider-wrapper" id="slider-${idx}">`;
+                imgSource.forEach(url => { imgHtml += `<img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?w=800'">`; });
+                imgHtml += `</div>`;
 
-                    let imgHtml = `<div class="slider-wrapper" id="slider-${title.replace(/\s/g,'')}-${idx}">`;
-                    imgSource.forEach(url => {
-                        imgHtml += `<img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?w=800'">`;
-                    });
-                    imgHtml += `</div>`;
-
-                    grid.innerHTML += `
-                    <div class="card-flight">
-                        <div class="img-container">
-                            <div class="status-badge">${item.status}</div>
-                            ${imgHtml}
+                grid.innerHTML += `
+                <div class="card-flight">
+                    <div class="img-container">
+                        <div class="status-badge">${item.status}</div>
+                        ${imgHtml}
+                    </div>
+                    <div class="p-7 flex flex-col flex-grow">
+                        <h2 class="text-2xl font-black uppercase mb-1 tracking-tighter">${item.dest}</h2>
+                        <p class="text-slate-400 text-[10px] font-bold mb-5 tracking-widest uppercase">${item.date} • ${item.duree}</p>
+                        
+                        <div class="mb-8">
+                            <div class="price-tag">${item.prix} <span class="text-sm font-bold">DA</span></div>
+                            <div class="text-[10px] font-black text-slate-500 uppercase mt-1 bg-slate-100 px-2 py-1 inline-block rounded">Bagage: ${item.bag}</div>
                         </div>
-                        <div class="p-6 flex flex-col flex-grow">
-                            <h2 class="text-xl font-black uppercase mb-1">${item.dest}</h2>
-                            <p class="text-slate-400 text-xs font-bold mb-4">${item.date} • ${item.duree}</p>
-                            
-                            <div class="mb-6">
-                                <div class="price-tag">${item.prix} <span class="text-sm">DA</span></div>
-                                <div class="text-[10px] font-bold text-slate-500 uppercase mt-1">Bagage: ${item.bag}</div>
-                            </div>
 
-                            <div class="mt-auto">
-                                ${isVoyage ? `<button onclick="openDetails('${item.dest}', '${item.plan.replace(/'/g, "\\'")}')" class="btn-outline uppercase text-xs">Voir le programme</button>` : ''}
-                                <div class="flex gap-2">
-                                    <a href="tel:0558332601" class="p-3 border-2 border-slate-200 rounded-xl text-slate-600"><i class="fa fa-phone"></i></a>
-                                    <button onclick="sendWA('${item.dest}', '${item.prix}')" class="btn-main uppercase text-xs">
-                                        <i class="fab fa-whatsapp"></i> Réserver
-                                    </button>
-                                </div>
+                        <div class="mt-auto">
+                            ${(isVoyage || item.plan.length > 5) ? `<button onclick="openDetails('${item.dest}', '${item.plan.replace(/'/g, "\\'")}')" class="btn-details">Détails du Programme</button>` : ''}
+                            <div class="flex gap-3">
+                                <a href="tel:0558332601" class="p-4 border-2 border-slate-100 rounded-2xl text-slate-400 hover:text-[var(--deep-blue)] hover:border-[var(--deep-blue)]"><i class="fa fa-phone"></i></a>
+                                <button onclick="sendWA('${item.dest}', '${item.prix}')" class="btn-wa"><i class="fab fa-whatsapp text-xl"></i> RÉSERVER</button>
                             </div>
                         </div>
-                    </div>`;
+                    </div>
+                </div>`;
 
-                    if (imgSource.length > 1) {
-                        let c = 0;
-                        setInterval(() => {
-                            const s = document.getElementById(`slider-${title.replace(/\s/g,'')}-${idx}`);
-                            if (s) { c = (c + 1) % imgSource.length; s.style.transform = `translateX(-${c * 100}%)`; }
-                        }, 4000);
-                    }
-                });
-            }
+                // Auto-Slider si plusieurs images
+                if (imgSource.length > 1) {
+                    let c = 0;
+                    setInterval(() => {
+                        const s = document.getElementById(`slider-${idx}`);
+                        if (s) { c = (c + 1) % imgSource.length; s.style.transform = `translateX(-${c * 100}%)`; }
+                    }, 5000);
+                }
+            });
         }
 
         function openDetails(dest, plan) {
-            const modal = document.getElementById('detailsModal');
-            const body = document.getElementById('modalBody');
             document.getElementById('modalTitle').innerText = dest;
-            
-            if(plan.includes('http') && plan.includes('.pdf')) {
-                body.innerHTML = `<p class="mb-6">Programme PDF disponible :</p>
-                    <a href="${plan}" target="_blank" class="flex items-center justify-center gap-3 bg-red-600 text-white p-4 rounded-2xl font-bold uppercase text-sm">
-                        <i class="fas fa-file-pdf"></i> Ouvrir le PDF
-                    </a>`;
+            const body = document.getElementById('modalBody');
+            if(plan.includes('.pdf')) {
+                body.innerHTML = `<a href="${plan}" target="_blank" class="block bg-red-600 text-white p-5 rounded-2xl text-center font-bold uppercase text-sm shadow-lg shadow-red-100"><i class="fas fa-file-pdf mr-2"></i> Télécharger le Programme PDF</a>`;
             } else {
-                body.innerHTML = `<div class="whitespace-pre-line leading-relaxed text-sm">${plan || 'Programme bientôt disponible...'}</div>`;
+                body.innerHTML = plan || "Détails disponibles sur demande.";
             }
-            modal.style.display = 'flex';
+            document.getElementById('detailsModal').style.display = 'flex';
         }
 
-        function closeDetails() { document.getElementById('detailsModal').style.display = 'none'; }
-        
-        function sendWA(dest, prix) {
-            const msg = encodeURIComponent(`Bonjour Presta Tours, je souhaite réserver l'offre ${dest} (${prix} DA).`);
-            window.open(`https://wa.me/213558332601?text=${msg}`);
-        }
+        function sendWA(d, p) { window.open(`https://wa.me/213558332601?text=Je suis intéressé par l'offre ${d} à ${p} DA.`); }
         
         init();
     </script>

@@ -30,7 +30,6 @@
         .airline-container { position: absolute; top: 15px; left: 15px; z-index: 20; display: flex; gap: 5px; }
         .airline-logo { background: rgba(255,255,255,0.9); padding: 4px; border-radius: 8px; height: 28px; border: 1px solid white; }
         .price-tag { color: var(--turkish-red); font-size: 26px; font-weight: 900; }
-        /* Style pour le texte de départ */
         .departure-label { font-size: 11px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
         .btn-details { border: 2px solid var(--gold); color: var(--deep-blue); padding: 10px; border-radius: 12px; font-weight: 800; width: 100%; margin-bottom: 12px; text-transform: uppercase; font-size: 10px; }
         .btn-wa { background: var(--whatsapp); color: white; padding: 12px; border-radius: 12px; font-weight: 800; flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11px; }
@@ -99,12 +98,22 @@
             } catch (e) { console.error(e); }
         }
 
+        // --- UPDATED FILTER LOGIC ---
         function filterBy(criteria, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            if(criteria === 'all') render(masterData);
-            else if(criteria === 'VOYAGE') render(masterData.filter(i => i.status.toUpperCase().includes('VOYAGE')));
-            else render(masterData.filter(i => i.duree.includes(criteria) && !i.status.toUpperCase().includes('VOYAGE')));
+
+            if(criteria === 'all') {
+                render(masterData);
+            } 
+            else if(criteria === 'VOYAGE') {
+                // Shows everything that contains "VOYAGE" in status
+                render(masterData.filter(i => i.status.toUpperCase().includes('VOYAGE')));
+            } 
+            else {
+                // Shows specific days (4J, 7J, etc.) ONLY if it's NOT a "VOYAGE"
+                render(masterData.filter(i => i.duree.includes(criteria) && !i.status.toUpperCase().includes('VOYAGE')));
+            }
         }
 
         function render(items) {
@@ -112,8 +121,6 @@
             grid.innerHTML = "";
             items.forEach((item, idx) => {
                 const isVoyage = item.status.toUpperCase().includes("VOYAGE");
-                
-                // Correction : Extraction dynamique du départ (ex: "Alger → Istanbul" devient "Alger")
                 const departureCity = item.dest.split('→')[0].trim();
 
                 let imgSource = [];
@@ -145,9 +152,7 @@
                 <div class="card-flight ${isVoyage ? 'card-voyage' : ''}">
                     <div class="img-container">${airlineHtml}<div class="status-badge">${item.status}</div>${imgHtml}</div>
                     <div class="p-6 flex flex-col flex-grow">
-                        <!-- Correction : Affichage du Départ (Alger/Oran/Constantine) -->
                         ${!isVoyage ? `<div class="departure-label"><i class="fa fa-plane-departure"></i> Départ ${departureCity}</div>` : ''}
-                        
                         <h2 class="text-xl font-black uppercase mb-1 tracking-tighter">${item.dest}</h2>
                         <p class="text-slate-400 text-[10px] font-bold mb-4 uppercase">${item.date} • ${item.duree}</p>
                         <div class="price-tag mb-6">${item.prix} <span class="text-sm font-bold">DA</span></div>

@@ -2,204 +2,238 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PRESTA TOURS | Premium Travel</title>
-    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRESTA TOURS | Plateforme de Réservation</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-
     <style>
-        :root { --deep-blue: #0A1E3B; --gold: #C5A059; --turkish-red: #E31C1C; --whatsapp: #25D366; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F0F4F8; color: var(--deep-blue); margin: 0; padding-top: 190px; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;700;800&display=swap');
         
-        /* Fixed Header Architecture */
-        .nav-presta { background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; border-bottom: 4px solid var(--gold); }
+        :root { --blue: #0A1E3B; --gold: #C5A059; --red: #E31C1C; }
         
-        /* Filter System */
-        .filter-container { display: flex; gap: 10px; overflow-x: auto; padding: 15px 20px; scrollbar-width: none; background: rgba(0,0,0,0.2); }
-        .filter-btn { background: rgba(255,255,255,0.1); color: white; padding: 12px 22px; border-radius: 14px; font-weight: 800; font-size: 11px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.15); white-space: nowrap; transition: 0.3s; }
-        .filter-btn.active { background: var(--gold); border-color: var(--gold); box-shadow: 0 4px 15px rgba(197, 160, 89, 0.4); }
-        .btn-voyage-filter.active { background: #7C3AED !important; border-color: #7C3AED !important; }
+        body { 
+            background: #F8FAFC; 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            padding-top: 180px; 
+            margin: 0;
+        }
 
-        /* Card Master Design */
-        .card-flight { background: white; border-radius: 35px; overflow: hidden; display: flex; flex-direction: column; height: 100%; box-shadow: 0 10px 30px rgba(0,0,0,0.05); transition: all 0.5s cubic-bezier(0.19, 1, 0.22, 1); border: 1px solid rgba(0,0,0,0.03); }
-        .card-flight:hover { transform: translateY(-15px); box-shadow: 0 40px 80px -20px rgba(0,0,0,0.2); }
-        
-        /* Image Engine */
-        .img-container { height: 280px; position: relative; overflow: hidden; background: #1a1a1a; }
-        .img-main { width: 100%; height: 100%; object-fit: cover; transition: 0.6s ease; }
-        .card-flight:hover .img-main { transform: scale(1.1) rotate(1deg); }
+        /* --- SMART HEADER --- */
+        header { 
+            background: var(--blue); 
+            position: fixed; 
+            top: 0; left: 0; right: 0; 
+            z-index: 1000; 
+            border-bottom: 3px solid var(--gold);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .header-hidden { transform: translateY(-100%); }
 
-        .badge-cat { position: absolute; top: 20px; left: 20px; background: white; color: var(--deep-blue); padding: 6px 15px; border-radius: 12px; font-weight: 900; font-size: 10px; z-index: 10; box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
-        .badge-places { position: absolute; top: 20px; right: 20px; background: var(--turkish-red); color: white; padding: 6px 15px; border-radius: 12px; font-weight: 800; font-size: 10px; z-index: 10; }
-        
-        .price-text { color: var(--turkish-red); font-size: 34px; font-weight: 900; letter-spacing: -1.5px; }
-        .da-label { font-size: 12px; font-weight: 800; color: #CBD5E1; margin-left: 4px; }
+        /* --- ORIGINAL SOCIAL COLORS --- */
+        .fa-facebook-f { color: #1877F2; }
+        .fa-instagram { color: #E4405F; }
+        .fa-tiktok { color: #000000; }
+        .social-btn { 
+            background: white; 
+            width: 32px; height: 32px; 
+            display: flex; align-items: center; justify-content: center; 
+            border-radius: 8px; transition: 0.2s;
+        }
+        .social-btn:hover { transform: scale(1.1); }
 
-        .btn-action { background: var(--whatsapp); color: white; padding: 18px; border-radius: 20px; font-weight: 800; width: 100%; display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 14px; transition: 0.3s; box-shadow: 0 10px 20px -5px rgba(37, 211, 102, 0.4); }
-        .btn-action:hover { transform: scale(1.02); filter: brightness(1.1); }
-        
-        .btn-outline { border: 2px solid #E2E8F0; color: var(--deep-blue); padding: 15px; border-radius: 20px; font-weight: 800; width: 100%; margin-bottom: 10px; font-size: 11px; text-transform: uppercase; transition: 0.3s; }
-        .btn-outline:hover { border-color: var(--gold); color: var(--gold); }
+        /* --- FILTER BAR --- */
+        .filter-bar { 
+            display: flex; gap: 12px; 
+            overflow-x: auto; padding: 15px 20px; 
+            background: rgba(0,0,0,0.15); 
+            scrollbar-width: none; 
+        }
+        .filter-btn { 
+            background: white; padding: 10px 20px; 
+            border-radius: 12px; font-weight: 800; 
+            font-size: 11px; white-space: nowrap; 
+            text-transform: uppercase; letter-spacing: 0.5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .filter-btn.active { background: var(--gold); color: white; }
 
-        /* Pop-up Modal */
-        #detailsModal { display: none; position: fixed; inset: 0; background: rgba(5, 15, 30, 0.95); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(15px); }
-        .modal-card { background: white; border-radius: 40px; width: 100%; max-width: 500px; padding: 40px; transform: translateY(0); transition: 0.3s; }
+        /* --- CARDS --- */
+        .card { 
+            background: white; border-radius: 28px; 
+            overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.04); 
+            height: 100%; display: flex; flex-direction: column; 
+            transition: all 0.3s ease; border: 1px solid #edf2f7;
+        }
+        .card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(0,0,0,0.08); }
+        
+        .img-box { height: 230px; position: relative; background: #eee; }
+        .img-box img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .badge { 
+            position: absolute; top: 15px; left: 15px; 
+            background: var(--red); color: white; 
+            padding: 6px 14px; border-radius: 10px; 
+            font-size: 10px; font-weight: 900; box-shadow: 0 4px 10px rgba(227, 28, 28, 0.3);
+        }
+
+        .price-tag { color: var(--red); font-size: 34px; font-weight: 800; letter-spacing: -1.5px; }
+
+        /* --- MODAL --- */
+        #modal { 
+            display: none; position: fixed; inset: 0; 
+            background: rgba(10, 30, 59, 0.9); z-index: 2000; 
+            align-items: center; justify-content: center; padding: 20px; 
+            backdrop-filter: blur(8px); 
+        }
+        .modal-inner { 
+            background: white; padding: 40px; 
+            border-radius: 32px; max-width: 550px; width: 100%; 
+            position: relative; animation: slideUp 0.3s ease-out;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
 
-    <nav class="nav-presta">
-        <div class="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-xl">
-                    <span class="text-[var(--deep-blue)] font-black text-3xl italic">P</span>
-                </div>
-                <div>
-                    <h1 class="text-white font-black text-2xl tracking-tighter leading-none">PRESTA TOURS</h1>
-                    <p class="text-[var(--gold)] text-[10px] font-bold tracking-[3px] uppercase mt-1">L'excellence du voyage</p>
+<header id="smartHeader">
+    <div class="p-4 flex justify-between items-center max-w-7xl mx-auto">
+        <div class="flex items-center gap-4">
+            <div class="bg-white text-[var(--blue)] w-12 h-12 flex items-center justify-center font-black text-3xl rounded-xl shadow-lg">P</div>
+            <div>
+                <h1 class="text-white font-extrabold text-xl leading-none tracking-tight">PRESTA TOURS</h1>
+                <div class="flex gap-2.5 mt-2">
+                    <a href="#" class="social-btn"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-btn"><i class="fab fa-tiktok"></i></a>
                 </div>
             </div>
-            <div class="hidden md:flex gap-4">
-                <a href="#" class="text-white opacity-50 hover:opacity-100 transition"><i class="fab fa-instagram fa-lg"></i></a>
-                <a href="#" class="text-white opacity-50 hover:opacity-100 transition"><i class="fab fa-tiktok fa-lg"></i></a>
-            </div>
         </div>
-        
-        <div class="filter-container max-w-7xl mx-auto" id="filterBar">
-            <button class="filter-btn active" onclick="filterData('all', this)">Tous les vols</button>
-            <button class="filter-btn" onclick="filterData('7 Jours', this)">7 Jours</button>
-            <button class="filter-btn" onclick="filterData('8 Jours', this)">8 Jours</button>
-            <button class="filter-btn btn-voyage-filter" onclick="filterData('VOYAGE', this)">✨ Voyages Organisés</button>
-        </div>
-    </nav>
-
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div id="mainGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
-            <!-- Data will be injected here -->
-        </div>
-    </main>
-
-    <div id="detailsModal" onclick="this.style.display='none'">
-        <div class="modal-card" onclick="event.stopPropagation()">
-            <h2 id="mTitle" class="text-3xl font-black mb-4 tracking-tighter uppercase"></h2>
-            <div id="mBody" class="text-slate-500 leading-relaxed whitespace-pre-line border-l-4 border-[var(--gold)] pl-6 italic mb-8"></div>
-            <button onclick="document.getElementById('detailsModal').style.display='none'" class="w-full py-4 bg-[var(--deep-blue)] text-white rounded-2xl font-black uppercase tracking-widest">Fermer</button>
-        </div>
+        <a href="tel:0558332601" class="bg-[var(--gold)] hover:bg-white hover:text-[var(--blue)] text-white px-6 py-3 rounded-2xl font-black text-xs uppercase transition-all shadow-lg">Appeler</a>
     </div>
+    <div class="filter-bar">
+        <button class="filter-btn active" onclick="filter('all', this)">Tous les Offres</button>
+        <button class="filter-btn" onclick="filter('VOYAGE ORGANISEE', this)">Voyages Organisés</button>
+        <button class="filter-btn" onclick="filter('BILLET', this)">Billets Seuls</button>
+    </div>
+</header>
 
-    <script>
-        const GS_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
-        let store = [];
+<main class="p-6 max-w-7xl mx-auto">
+    <div id="grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+</main>
 
-        async function fetchData() {
-            try {
-                const response = await fetch(`${GS_URL}&nocache=${Date.now()}`);
-                const data = await response.text();
-                
-                // HIGH-LEVEL PARSER: Matches columns even with commas inside quotes
-                const rows = data.split(/\r?\n/).filter(row => row.trim().length > 0);
-                const results = [];
-                
-                for (let i = 1; i < rows.length; i++) {
-                    const columns = rows[i].match(/(".*?"|[^",\s]+)(?=\s*,|\s*$)/g);
-                    if (columns) {
-                        const clean = columns.map(v => v.replace(/"/g, '').trim());
-                        results.push({
-                            date: clean[0] || '',
-                            dest: clean[1] || 'Destination',
-                            prix: clean[2] || '---',
-                            duree: clean[3] || '',
-                            bagage: clean[4] || 'Incluse',
-                            airline: clean[5] || 'TK',
-                            plan: clean[6] || '',
-                            places: clean[7] || '',
-                            image: clean[8] || '',
-                            cat: (clean[9] || 'FLASH').toUpperCase()
-                        });
-                    }
-                }
-                store = results;
-                renderItems(store);
-            } catch (err) {
-                console.error("Critical Error:", err);
-            }
+<div id="modal" onclick="this.style.display='none'">
+    <div class="modal-inner" onclick="event.stopPropagation()">
+        <h2 id="m-title" class="text-3xl font-black mb-4 uppercase tracking-tighter text-[var(--blue)]"></h2>
+        <div id="m-body" class="text-gray-600 whitespace-pre-line leading-relaxed text-md bg-gray-50 p-6 rounded-2xl border border-gray-100"></div>
+        <button onclick="document.getElementById('modal').style.display='none'" class="mt-8 w-full bg-[var(--blue)] text-white py-4 rounded-2xl font-bold uppercase shadow-xl">Fermer</button>
+    </div>
+</div>
+
+<script>
+    // --- SMART HEADER LOGIC ---
+    let lastScroll = 0;
+    const header = document.getElementById('smartHeader');
+    window.addEventListener('scroll', () => {
+        const currentScroll = window.pageYOffset;
+        if (currentScroll > lastScroll && currentScroll > 150) {
+            header.classList.add('header-hidden');
+        } else {
+            header.classList.remove('header-hidden');
         }
+        lastScroll = currentScroll;
+    });
 
-        function filterData(type, btn) {
-            document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            if (type === 'all') renderItems(store);
-            else if (type === 'VOYAGE') renderItems(store.filter(x => x.cat.includes('VOYAGE')));
-            else renderItems(store.filter(x => x.duree.includes(type)));
-        }
+    // --- DATA LOADING ---
+    const CSV_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
+    let allData = [];
 
-        function renderItems(list) {
-            const container = document.getElementById('mainGrid');
-            container.innerHTML = list.map((item, idx) => {
-                // Fallback Image Logic
-                const imgUrl = (item.image && item.image.length > 10) ? item.image : 
-                               `https://images.unsplash.com/photo-1542296332-2e4473faf563?q=80&w=800&auto=format&fit=crop`;
-                
-                const logos = item.airline.split(/[/,]+/).map(code => 
-                    `<img class="h-7 bg-white p-1 rounded-lg shadow-sm" src="https://www.gstatic.com/flights/airline_logos/70px/${code.trim()}.png" onerror="this.remove()">`
-                ).join('');
+    async function load() {
+        try {
+            const r = await fetch(`${CSV_URL}&t=${Date.now()}`);
+            const text = await r.text();
+            const lines = text.split("\n");
+            
+            allData = lines.slice(1).map(line => {
+                // Precise Parser: Splits by comma but IGNORES commas inside quotes
+                const parts = line.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+                return {
+                    date: parts[0]?.replace(/"/g, "").trim(),
+                    dest: parts[1]?.replace(/"/g, "").trim(),
+                    prix: parts[2]?.replace(/"/g, "").trim(),
+                    duree: parts[3]?.replace(/"/g, "").trim(),
+                    bag: parts[4]?.replace(/"/g, "").trim(),
+                    air: parts[5]?.replace(/"/g, "").trim(),
+                    plan: parts[6]?.replace(/"/g, "").trim(),
+                    places: parts[7]?.replace(/"/g, "").trim(),
+                    img: parts[8]?.replace(/"/g, "").trim(),
+                    cat: parts[9]?.replace(/"/g, "").toUpperCase().trim() || ""
+                };
+            }).filter(item => item.dest);
+            display(allData);
+        } catch (e) { console.error("Sheet Load Error", e); }
+    }
 
-                return `
-                <div class="card-flight">
-                    <div class="img-container">
-                        <div class="badge-cat">${item.cat}</div>
-                        <div class="badge-places">${item.places || 'VOL CONFIRMÉ'}</div>
-                        <img src="${imgUrl}" class="img-main" loading="lazy">
-                        <div class="absolute bottom-4 left-4 flex gap-2 z-20">${logos}</div>
+    function filter(cat, btn) {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filtered = (cat === 'all') ? allData : allData.filter(i => i.cat === cat);
+        display(filtered);
+    }
+
+    function display(items) {
+        const grid = document.getElementById('grid');
+        grid.innerHTML = items.map(i => {
+            // Airline Logo Generator
+            const logos = i.air.split(/[/,]+/).map(code => 
+                `<img class="h-6 bg-white p-1 rounded-md shadow-sm border border-gray-100" src="https://www.gstatic.com/flights/airline_logos/70px/${code.trim()}.png">`
+            ).join('');
+
+            return `
+            <div class="card">
+                <div class="img-box">
+                    <div class="badge">${i.places}</div>
+                    <img src="${i.img}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109c053?w=800'">
+                    <div class="absolute bottom-4 left-4 flex gap-2">${logos}</div>
+                </div>
+                <div class="p-7 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="text-2xl font-black uppercase tracking-tighter leading-tight text-[var(--blue)]">${i.dest}</h3>
                     </div>
-                    <div class="p-8 flex flex-col flex-grow">
-                        <div class="flex justify-between items-start mb-4">
-                            <div>
-                                <p class="text-[var(--gold)] text-[10px] font-black uppercase tracking-[2px] mb-1 italic">✈️ Départ Alger</p>
-                                <h3 class="text-2xl font-black tracking-tighter uppercase leading-none">${item.dest}</h3>
-                            </div>
-                        </div>
+                    <p class="text-xs font-bold text-gray-400 mb-5 uppercase tracking-widest">${i.date} • ${i.duree}</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="bg-blue-50 text-[var(--blue)] px-3 py-1.5 rounded-lg text-[10px] font-extrabold uppercase flex items-center gap-1.5">
+                            <i class="fas fa-suitcase"></i> ${i.bag}
+                        </span>
+                    </div>
+
+                    <div class="mb-8 flex items-baseline gap-1">
+                        <span class="price-tag">${i.prix}</span>
+                        <span class="text-sm font-black text-gray-300">DA</span>
+                    </div>
+
+                    <div class="mt-auto space-y-3">
+                        ${i.plan.length > 5 ? `
+                        <button onclick="openModal('${i.dest}', \`${i.plan.replace(/'/g, "\\'")}\`)" class="w-full border-2 border-gray-100 hover:border-[var(--gold)] py-3 rounded-2xl font-black text-[10px] uppercase transition-all tracking-wider text-gray-600">
+                            Voir Programme
+                        </button>` : ''}
                         
-                        <div class="flex items-center gap-4 mb-6">
-                            <span class="text-xs font-bold text-slate-400"><i class="far fa-calendar-alt mr-1"></i> ${item.date}</span>
-                            <span class="text-xs font-bold text-slate-400"><i class="far fa-clock mr-1"></i> ${item.duree}</span>
-                        </div>
-
-                        <div class="flex items-center gap-2 mb-8">
-                            <span class="bg-slate-100 text-slate-500 px-3 py-1.5 rounded-xl text-[9px] font-black uppercase">
-                                <i class="fas fa-suitcase mr-1"></i> Bagage: ${item.bagage}
-                            </span>
-                        </div>
-
-                        <div class="mb-8 flex items-baseline">
-                            <span class="price-text">${item.prix}</span>
-                            <span class="da-label">DA</span>
-                        </div>
-
-                        <div class="mt-auto space-y-3">
-                            ${item.plan.length > 5 ? `<button onclick="openM('${item.dest}', \`${item.plan.replace(/'/g, "\\'")}\`)" class="btn-outline">Détails Programme</button>` : ''}
-                            <button onclick="bookWA('${item.dest}', '${item.prix}')" class="btn-action">
-                                <i class="fab fa-whatsapp text-xl"></i> RÉSERVER MAINTENANT
-                            </button>
-                        </div>
+                        <button onclick="window.open('https://wa.me/213558332601?text=Intéressé par: ${i.dest} (${i.prix} DA)')" class="w-full bg-[#25D366] hover:bg-[#1eb954] text-white py-4 rounded-2xl font-black text-sm uppercase flex items-center justify-center gap-2 shadow-lg transition-all">
+                            <i class="fab fa-whatsapp text-xl"></i> Réserver Maintenant
+                        </button>
                     </div>
-                </div>`;
-            }).join('');
-        }
+                </div>
+            </div>
+        `}).join('');
+    }
 
-        function openM(t, b) {
-            document.getElementById('mTitle').innerText = t;
-            document.getElementById('mBody').innerText = b;
-            document.getElementById('detailsModal').style.display = 'flex';
-        }
+    function openModal(t, b) {
+        document.getElementById('m-title').innerText = t;
+        document.getElementById('m-body').innerText = b;
+        document.getElementById('modal').style.display = 'flex';
+    }
 
-        function bookWA(d, p) {
-            window.open(`https://wa.me/213558332601?text=Bonjour, je souhaite réserver le vol vers ${d} au prix de ${p} DA.`);
-        }
-
-        fetchData();
-    </script>
+    load();
+</script>
 </body>
 </html>

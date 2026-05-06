@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>PRESTA TOURS | Expert Voyages</title>
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -12,11 +11,9 @@
     <style>
         :root { --deep-blue: #0A1E3B; --gold: #C5A059; --turkish-red: #E31C1C; --whatsapp: #25D366; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F8FAFC; color: var(--deep-blue); margin: 0; padding-top: 160px; }
-        .nav-presta { background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 10px 0; border-bottom: 2px solid var(--gold); transition: transform 0.4s; box-shadow: 0 4px 25px rgba(0,0,0,0.25); }
-        .nav-hidden { transform: translateY(-100%); }
+        .nav-presta { background: var(--deep-blue); position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 10px 0; border-bottom: 2px solid var(--gold); box-shadow: 0 4px 25px rgba(0,0,0,0.25); }
         .logo-area { display: flex; align-items: center; justify-content: space-between; padding: 5px 20px 10px 20px; }
         .filter-container { display: flex; gap: 8px; overflow-x: auto; padding: 10px 20px; scrollbar-width: none; }
-        .filter-container::-webkit-scrollbar { display: none; }
         .filter-btn { background: rgba(255,255,255,0.08); color: white; padding: 8px 18px; border-radius: 12px; font-weight: 700; font-size: 10px; text-transform: uppercase; border: 1px solid rgba(255,255,255,0.15); white-space: nowrap; transition: 0.3s; }
         .filter-btn.active { background: var(--gold); color: white; border-color: var(--gold); }
         .btn-voyage-filter.active { background: #7C3AED !important; border-color: #7C3AED !important; }
@@ -30,7 +27,7 @@
         .airline-container { position: absolute; top: 15px; left: 15px; z-index: 20; display: flex; gap: 5px; }
         .airline-logo { background: rgba(255,255,255,0.9); padding: 4px; border-radius: 8px; height: 28px; border: 1px solid white; }
         .price-tag { color: var(--turkish-red); font-size: 26px; font-weight: 900; }
-        .departure-label { font-size: 11px; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+        .departure-label { font-size: 11px; font-weight: 800; color: var(--gold); text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
         .btn-details { border: 2px solid var(--gold); color: var(--deep-blue); padding: 10px; border-radius: 12px; font-weight: 800; width: 100%; margin-bottom: 12px; text-transform: uppercase; font-size: 10px; }
         .btn-wa { background: var(--whatsapp); color: white; padding: 12px; border-radius: 12px; font-weight: 800; flex-grow: 1; display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 11px; }
         #detailsModal { display: none; position: fixed; inset: 0; background: rgba(10,30,59,0.9); z-index: 9999; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(8px); }
@@ -45,7 +42,7 @@
                 <div class="w-9 h-9 bg-[var(--gold)] rounded-lg flex items-center justify-center text-white font-black text-lg">P</div>
                 <span class="text-white font-black text-lg tracking-tighter uppercase">PRESTA TOURS</span>
             </div>
-            <a href="tel:0558332601" class="text-white bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold border border-white/20 uppercase tracking-widest">
+            <a href="tel:0558332601" class="text-white bg-white/10 px-4 py-2 rounded-lg text-[10px] font-bold border border-white/20 uppercase">
                 <i class="fa fa-phone mr-2"></i>Appel
             </a>
         </div>
@@ -70,16 +67,6 @@
         </div>
     </div>
 
-    <footer class="bg-[var(--deep-blue)] text-white py-16 text-center">
-        <p class="font-black text-xl mb-2">PRESTA TOURS VOYAGES</p>
-        <div class="flex justify-center gap-8 my-8">
-            <a href="https://www.facebook.com/prestatour/" target="_blank" class="text-2xl text-slate-500 hover:text-[#1877F2] transition-colors"><i class="fab fa-facebook"></i></a>
-            <a href="https://www.instagram.com/presta_tours_/" target="_blank" class="text-2xl text-slate-500 hover:text-[#E4405F] transition-colors"><i class="fab fa-instagram"></i></a>
-            <a href="https://www.tiktok.com/@prestatours" target="_blank" class="text-2xl text-slate-500 hover:text-black transition-colors"><i class="fab fa-tiktok"></i></a>
-        </div>
-        <p class="text-[9px] uppercase tracking-widest text-slate-500">© 2026 Kourifa Rachid 16302 El Harrach, Alger</p>
-    </footer>
-
     <script>
         const SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQikVMr3Z3Yk4u5zydpB_UZyjgGJ8fUWGaK0ZG2BXid9ZyLxOi9moJwyDyKT0qbBHyEdNbfp3xyaKa3/pub?gid=0&single=true&output=csv";
         let masterData = [];
@@ -88,31 +75,37 @@
             try {
                 const res = await fetch(`${SHEET_URL}&cb=${Date.now()}`);
                 const text = await res.text();
-                const rows = text.split(/\r?\n/).filter(r => r.trim().split(/[;,]/).length > 6);
+                const rows = text.split(/\r?\n/).filter(r => r.trim().length > 10);
                 const sep = rows[0].includes(';') ? ';' : ',';
+                
                 masterData = rows.slice(1).map(row => {
                     const c = row.split(sep).map(f => f.replace(/"/g, '').trim());
-                    return { date: c[0], dest: c[1], prix: c[2], duree: c[3], bag: c[4], airline: c[5], plan: c[6], status: c[7], img: c[8] };
+                    return { 
+                        date: c[0] || '', 
+                        dest: c[1] || '', 
+                        prix: c[2] || '', 
+                        duree: c[3] || '', 
+                        bag: c[4] || '', 
+                        airline: c[5] || '', 
+                        plan: c[6] || '', 
+                        status: c[7] || '', 
+                        img: c[8] || '',
+                        category: (c[9] || '').toUpperCase() // The new 10th Column
+                    };
                 }).filter(i => i.dest && i.prix);
                 render(masterData);
             } catch (e) { console.error(e); }
         }
 
-        // --- UPDATED FILTER LOGIC ---
         function filterBy(criteria, btn) {
             document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            if(criteria === 'all') {
-                render(masterData);
-            } 
+            if(criteria === 'all') render(masterData);
             else if(criteria === 'VOYAGE') {
-                // Shows everything that contains "VOYAGE" in status
-                render(masterData.filter(i => i.status.toUpperCase().includes('VOYAGE')));
-            } 
-            else {
-                // Shows specific days (4J, 7J, etc.) ONLY if it's NOT a "VOYAGE"
-                render(masterData.filter(i => i.duree.includes(criteria) && !i.status.toUpperCase().includes('VOYAGE')));
+                render(masterData.filter(i => i.category.includes('VOYAGE')));
+            } else {
+                render(masterData.filter(i => i.duree.includes(criteria) && !i.category.includes('VOYAGE')));
             }
         }
 
@@ -120,79 +113,43 @@
             const grid = document.getElementById('grid');
             grid.innerHTML = "";
             items.forEach((item, idx) => {
-                const isVoyage = item.status.toUpperCase().includes("VOYAGE");
+                const isVoyage = item.category.includes("VOYAGE");
                 const departureCity = item.dest.split('→')[0].trim();
-
-                let imgSource = [];
-                if (item.img && item.img.includes('http')) {
-                    imgSource = item.img.split(',').map(u => u.trim());
-                } else if (isVoyage) {
-                    imgSource = [
-                        `https://images.unsplash.com/photo-1528127269322-539801943592?q=80&w=800&auto=format&fit=crop&sig=1${idx}`,
-                        `https://images.unsplash.com/photo-1506744038136-46273834b3fb?q=80&w=800&auto=format&fit=crop&sig=2${idx}`,
-                        `https://images.unsplash.com/photo-1537996194471-e657df975ab4?q=80&w=800&auto=format&fit=crop&sig=3${idx}`
-                    ];
-                } else {
-                    imgSource = [`https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?q=80&w=800&auto=format&fit=crop`];
-                }
-
-                let imgHtml = `<div class="slider-wrapper" id="slider-${idx}">`;
-                imgSource.forEach(url => { imgHtml += `<img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?w=800'">`; });
+                let imgHtml = `<div class="slider-wrapper">`;
+                const imgs = item.img.split(',').map(u => u.trim());
+                imgs.forEach(url => { imgHtml += `<img src="${url}" onerror="this.src='https://images.unsplash.com/photo-1436491865332-7a61a109c0f3?w=800'">`; });
                 imgHtml += `</div>`;
-
-                let airlineHtml = '';
-                if(item.airline) {
-                    const codes = item.airline.split(/[/,]/).map(s => s.trim());
-                    airlineHtml = '<div class="airline-container">';
-                    codes.forEach(code => { airlineHtml += `<img src="https://daisycon.io/images/airline/?width=80&height=40&color=ffffff&iata=${code}" class="airline-logo">`; });
-                    airlineHtml += '</div>';
-                }
 
                 grid.innerHTML += `
                 <div class="card-flight ${isVoyage ? 'card-voyage' : ''}">
-                    <div class="img-container">${airlineHtml}<div class="status-badge">${item.status}</div>${imgHtml}</div>
+                    <div class="img-container">
+                        <div class="status-badge">${item.status}</div>
+                        ${imgHtml}
+                    </div>
                     <div class="p-6 flex flex-col flex-grow">
-                        ${!isVoyage ? `<div class="departure-label"><i class="fa fa-plane-departure"></i> Départ ${departureCity}</div>` : ''}
+                        ${!isVoyage ? `<div class="departure-label"><i class="fa fa-plane-departure"></i> Départ ${departureCity}</div>` : `<div class="departure-label"><i class="fa fa-star"></i> Voyage Organisé</div>`}
                         <h2 class="text-xl font-black uppercase mb-1 tracking-tighter">${item.dest}</h2>
                         <p class="text-slate-400 text-[10px] font-bold mb-4 uppercase">${item.date} • ${item.duree}</p>
                         <div class="price-tag mb-6">${item.prix} <span class="text-sm font-bold">DA</span></div>
                         <div class="mt-auto">
-                            ${(isVoyage || item.plan.length > 5) ? `<button onclick="openDetails('${item.dest}', '${item.plan.replace(/'/g, "\\'")}')" class="btn-details">Détails Programme</button>` : ''}
+                            ${(isVoyage || item.plan.length > 5) ? `<button onclick="openDetails('${item.dest}', \`${item.plan.replace(/'/g, "\\'")}\`)" class="btn-details">Détails Programme</button>` : ''}
                             <div class="flex gap-2">
-                                <a href="tel:0558332601" class="p-4 border-2 border-slate-100 rounded-xl text-slate-400 hover:text-[var(--deep-blue)] transition-all"><i class="fa fa-phone"></i></a>
+                                <a href="tel:0558332601" class="p-4 border-2 border-slate-100 rounded-xl text-slate-400 hover:text-[var(--deep-blue)]"><i class="fa fa-phone"></i></a>
                                 <button onclick="sendWA('${item.dest}', '${item.prix}')" class="btn-wa"><i class="fab fa-whatsapp"></i> RÉSERVER</button>
                             </div>
                         </div>
                     </div>
                 </div>`;
-
-                if (isVoyage && imgSource.length > 1) {
-                    let count = 0;
-                    setInterval(() => {
-                        const slider = document.getElementById(`slider-${idx}`);
-                        if (slider) { count = (count + 1) % imgSource.length; slider.style.transform = `translateX(-${count * 100}%)`; }
-                    }, 4000);
-                }
             });
         }
 
         function openDetails(dest, plan) {
             document.getElementById('modalTitle').innerText = dest;
-            document.getElementById('modalBody').innerHTML = plan.includes('.pdf') ? `<a href="${plan}" target="_blank" class="block bg-red-600 text-white p-4 rounded-xl text-center font-bold">PROGRAMME PDF</a>` : plan;
+            document.getElementById('modalBody').innerHTML = plan;
             document.getElementById('detailsModal').style.display = 'flex';
         }
 
         function sendWA(d, p) { window.open(`https://wa.me/213558332601?text=Je souhaite réserver l'offre ${d} à ${p} DA.`); }
-        
-        let lastScroll = 0;
-        window.addEventListener("scroll", () => {
-            const currentScroll = window.pageYOffset;
-            const nav = document.getElementById("navbar");
-            if (currentScroll > lastScroll && currentScroll > 100) nav.classList.add("nav-hidden");
-            else nav.classList.remove("nav-hidden");
-            lastScroll = currentScroll;
-        });
-
         init();
     </script>
 </body>
